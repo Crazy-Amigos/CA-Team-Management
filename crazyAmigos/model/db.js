@@ -25,6 +25,12 @@ process.on('SIGINT', function() {
   });
 });
 
+var UserSchema = new mongoose.Schema({
+  userName : {type: String, unique:true},
+  password : String,
+  CreatedOn: Date,
+  updatedOn : { type: Date, default: Date.now }
+})
 /*
 var videosSchema = new mongoose.Schema({
   title: String,
