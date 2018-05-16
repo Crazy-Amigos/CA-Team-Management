@@ -31,7 +31,16 @@ var userSchema = new mongoose.Schema({
   CreatedOn: { type: Date, default: Date.now },
   updatedOn : { type: Date, default: Date.now }
 });
+var memberSchema = new mongoose.Schema ({
+  name : String,
+  designation : String ,
+  description : String,
+  mob : {type: String, unique:true},
+  email : {type: String, unique:true},
+  updatedOn : { type: Date, default: Date.now }
+})
 mongoose.model('users',userSchema);
+mongoose.model('members',memberSchema);
 /*
 var videosSchema = new mongoose.Schema({
   title: String,

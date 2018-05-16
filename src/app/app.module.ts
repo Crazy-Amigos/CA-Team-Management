@@ -12,6 +12,11 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { GroupComponent } from './group/group.component';
+import { MembersComponent } from './members/members.component';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+// import {Observable} from 'rxjs';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,12 +27,17 @@ import { GroupComponent } from './group/group.component';
     HeaderComponent,
     SidebarComponent,
     FooterComponent,
-    GroupComponent
+    GroupComponent,
+    MembersComponent,
+    //Observable
   ],
   imports: [
     BrowserModule,
     RoutingModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    HttpModule,
+    FormsModule,
+    // Observable
   ],
   providers: [],
   bootstrap: [AppComponent]

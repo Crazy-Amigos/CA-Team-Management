@@ -6,6 +6,7 @@ import {LoginComponent} from '../login/login.component';
 import {HomeComponent} from '../layouts/home/home.component';
 import {LoginlayoutComponent} from '../layouts/loginlayout/loginlayout.component';
 import {GroupComponent} from '../group/group.component';
+import {MembersComponent} from '../members/members.component';
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: 'group',
         component: GroupComponent
+      },
+      {
+        path: 'members',
+        component: MembersComponent
       }
     ]
   },
