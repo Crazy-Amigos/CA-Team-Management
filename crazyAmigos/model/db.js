@@ -28,7 +28,7 @@ process.on('SIGINT', function() {
 var userSchema = new mongoose.Schema({
   userName : {type: String, unique:true},
   password : String,
-  CreatedOn: Date,
+  CreatedOn: { type: Date, default: Date.now },
   updatedOn : { type: Date, default: Date.now }
 });
 mongoose.model('users',userSchema);
