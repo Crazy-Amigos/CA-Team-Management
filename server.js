@@ -1,7 +1,7 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const path=require('path');
-//var db=require('./model/db');
+var db=require('./crazyAmigos/model/db');
 
 //const api=require('./server/routes/api');
 
@@ -21,5 +21,5 @@ app.get('*',function (req,res) {
 });
 
 app.listen(port,function () {
-  console.log("Server Running on localhost:"+port);
+  console.log("CrazyAmigos Server Started...... " );
 });
