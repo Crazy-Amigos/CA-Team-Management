@@ -5,6 +5,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {LoginComponent} from '../login/login.component';
 import {HomeComponent} from '../layouts/home/home.component';
 import {LoginlayoutComponent} from '../layouts/loginlayout/loginlayout.component';
+import {GroupComponent} from '../group/group.component';
 const routes: Routes = [
   {
     path: '',
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent
+      },
+      {
+        path: 'group',
+        component: GroupComponent
       }
     ]
   },
