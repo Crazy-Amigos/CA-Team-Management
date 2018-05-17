@@ -15,6 +15,7 @@ import { GroupComponent } from './group/group.component';
 import { MembersComponent } from './members/members.component';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
+// import {ToastModule} from 'ng2-toastr';
 // import {Observable} from 'rxjs';
 
 @NgModule({
@@ -28,8 +29,7 @@ import {FormsModule} from '@angular/forms';
     SidebarComponent,
     FooterComponent,
     GroupComponent,
-    MembersComponent,
-    //Observable
+    MembersComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +37,7 @@ import {FormsModule} from '@angular/forms';
     ModalModule.forRoot(),
     HttpModule,
     FormsModule,
+    // ToastModule.forRoot()
     // Observable
   ],
   providers: [],

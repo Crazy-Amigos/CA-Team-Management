@@ -1,8 +1,9 @@
-import { Component, OnInit , TemplateRef} from '@angular/core';
+import { Component, OnInit , TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {CategoryService} from '../category.service';
 import {Category} from '../variable/category';
+// import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-group',
@@ -12,11 +13,11 @@ import {Category} from '../variable/category';
 })
 export class GroupComponent implements OnInit {
   modalRef: BsModalRef;
-
-
-  constructor( private modalService: BsModalService , private _categoryService: CategoryService) { }
+  categorys: Array<Category>;
+  constructor( private modalService: BsModalService , private _categoryService: CategoryService ) {}
 
   ngOnInit() {
+    this.viewCategory();
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -27,8 +28,20 @@ export class GroupComponent implements OnInit {
   submitNewCategory(category: Category) {
     this._categoryService.addCategory(category)
       .subscribe(resNewCategory => {
-        this.modalRef.hide();
+        if (resNewCategory.status === '200') {
+          // this.showSuccess();
+          this.modalRef.hide();
+          this.viewCategory();
+        } else {
+          // this.showError();
+        }
+
       });
   }
+  viewCategory() {
+    this._categoryService.viewCategory()
+      .subscribe(resCategory =>  this.categorys = resCategory);
+  }
+
 
 }

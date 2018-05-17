@@ -49,18 +49,18 @@
     <!-- /.box-header -->
     <div class="box-body table-responsive no-padding" >
       <div class="">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngFor="let category of categorys">
 
           <!-- Profile Image -->
           <div class="box box-warning">
             <div class="box-body box-profile">
 
-              <h3 class="profile-username text-center">Category Name</h3>
+              <h3 class="profile-username text-center">{{category.category}}</h3>
               <p class="text-muted text-center">Crazy Amigos</p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item" style="overflow-x:scroll ">
-                  <a  class="text-center">Description</a>
+                  <a  class="text-center">{{category.designation}}</a>
                 </li>
               </ul>
               <a href="#" class="btn btn-primary btn-block"><b>Edit Detail</b></a>
