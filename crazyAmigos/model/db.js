@@ -39,9 +39,15 @@ var memberSchema = new mongoose.Schema ({
   email : {type: String, unique:true},
   address : String,
   updatedOn : { type: Date, default: Date.now }
+});
+var categorySchema = new mongoose.Schema ({
+  category : {type: String, unique:true},
+  designation : String,
+  updatedOn : { type: Date, default: Date.now }
 })
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);
+mongoose.model('category',categorySchema);
 /*
 var videosSchema = new mongoose.Schema({
   title: String,
