@@ -5,5 +5,6 @@ export class Member {
   description: string;
   mob: string;
   email: string;
+  address: string;
   updatedOn: Date;
 }

@@ -37,6 +37,7 @@ var memberSchema = new mongoose.Schema ({
   description : String,
   mob : {type: String, unique:true},
   email : {type: String, unique:true},
+  address : String,
   updatedOn : { type: Date, default: Date.now }
 })
 mongoose.model('users',userSchema);

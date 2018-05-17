@@ -35,23 +35,21 @@
             <label for="txtDes" class="col-sm-2 control-label">Designation</label>
 
             <div class="col-sm-10">
-              <input type="text" name="designation" class="form-control" id="txtDes" placeholder="example@gmail.com" ngModel>
+              <input type="text" name="designation" class="form-control" id="txtDes" placeholder="Designation" ngModel>
             </div>
           </div>
           <div class="form-group">
             <label for="txtSpecify" class="col-sm-2 control-label">specify</label>
 
             <div class="col-sm-10">
-              <input type="text" name="description" class="form-control" id="txtSpecify" placeholder="details" ngModel>
+              <input type="text" name="description" class="form-control" id="txtSpecify" placeholder="Specify" ngModel>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> Remember me
-                </label>
-              </div>
+            <label for="txtAddress" class="col-sm-2 control-label">Address</label>
+
+            <div class="col-sm-10">
+              <textarea type="text" name="address" class="form-control" id="txtAddress" placeholder="Address" ngModel></textarea>
             </div>
           </div>
         </div>
@@ -80,28 +78,30 @@
       </div>
     </div>
     <!-- /.box-header -->
-    <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive no-padding" >
       <div class="">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngFor="let member of members">
 
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
 
-              <h3 class="profile-username text-center">Ahammed Aboobacker</h3>
+              <h3 class="profile-username text-center">{{member.name}}</h3>
 
-              <p class="text-muted text-center">Software Developer</p>
-              <p class="text-muted text-center">Mean Stack</p>
+              <p class="text-muted text-center">{{member.designation}}</p>
+              <p class="text-muted text-center">{{member.description}}</p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Mobile</b> <a class="pull-right">9567096610</a>
+                  <b>Mobile</b> <a class="pull-right">{{member.mob}}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>email</b> <a class="pull-right">aboobacker5577@gmail.com</a>
+                  <b>email</b> <a class="pull-right">{{member.email}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Address</b> <a class="pull-right">{{member.address}}</a>
                 </li>
               </ul>
-
               <a href="#" class="btn btn-primary btn-block"><b>Edit Detail</b></a>
             </div>
             <!-- /.box-body -->

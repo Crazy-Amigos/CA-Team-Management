@@ -13,9 +13,11 @@ import { Member} from '../variable/member';
 export class MembersComponent implements OnInit {
   modalRef: BsModalRef;
   members: Array<Member>;
+  selectedMembers: Member;
   constructor(private _modelService: BsModalService , private _memberService: MemberService) { }
 
   ngOnInit() {
+    this.getMembers();
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this._modelService.show(template);
@@ -24,13 +26,16 @@ export class MembersComponent implements OnInit {
     this.modalRef.hide();
   }
   submitNewMember(member: Member) {
-    alert(member);
-    //console.log(member);
-    this._memberService.addMelmbers(member)
+    this._memberService.addmbers(member)
       .subscribe(resNewMember => {
-        // this.members.push(resNewMember);
+        this.modalRef.hide();
+        this.getMembers();
         console.log('Success');
       });
+  }
+  getMembers() {
+    this._memberService.getMembers()
+      .subscribe(resMemberDate => this.members = resMemberDate );
   }
 
 }
