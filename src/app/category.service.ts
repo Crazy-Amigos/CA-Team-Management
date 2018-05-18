@@ -20,4 +20,7 @@ export class CategoryService {
     return this._http.post(this._postUrl, JSON.stringify(category), option)
       .pipe(map((responce: Response) => responce.json()));
   }
+  viwcategory(_id) {
+    alert(_id);
+  }
 }

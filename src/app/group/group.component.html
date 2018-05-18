@@ -52,21 +52,21 @@
         <div class="col-md-4" *ngFor="let category of categorys">
 
           <!-- Profile Image -->
-          <div class="box box-warning">
+          <a (click)="viwcategory(category._id)">
+          <div class="box box-danger">
             <div class="box-body box-profile">
 
               <h3 class="profile-username text-center">{{category.category}}</h3>
-              <p class="text-muted text-center">Crazy Amigos</p>
 
               <ul class="list-group list-group-unbordered">
-                <li class="list-group-item" style="overflow-x:scroll ">
+                <li class="list-group-item">
                   <a  class="text-center">{{category.designation}}</a>
                 </li>
               </ul>
-              <a href="#" class="btn btn-primary btn-block"><b>Edit Detail</b></a>
             </div>
             <!-- /.box-body -->
           </div>
+          </a>
           <!-- /.box -->
         </div>
       </div>

@@ -15,6 +15,7 @@ import { GroupComponent } from './group/group.component';
 import { MembersComponent } from './members/members.component';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
+import {ToasterService} from './toaster.service';
 // import {ToastModule} from 'ng2-toastr';
 // import {Observable} from 'rxjs';
 
@@ -40,7 +41,7 @@ import {FormsModule} from '@angular/forms';
     // ToastModule.forRoot()
     // Observable
   ],
-  providers: [],
+  providers: [ToasterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

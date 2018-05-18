@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {CategoryService} from '../category.service';
 import {Category} from '../variable/category';
+import {ToasterService} from '../toaster.service';
 // import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -14,7 +15,11 @@ import {Category} from '../variable/category';
 export class GroupComponent implements OnInit {
   modalRef: BsModalRef;
   categorys: Array<Category>;
-  constructor( private modalService: BsModalService , private _categoryService: CategoryService ) {}
+  constructor(
+    private modalService: BsModalService ,
+    private _categoryService: CategoryService,
+    private _toasterService: ToasterService
+  ) {}
 
   ngOnInit() {
     this.viewCategory();
@@ -28,12 +33,12 @@ export class GroupComponent implements OnInit {
   submitNewCategory(category: Category) {
     this._categoryService.addCategory(category)
       .subscribe(resNewCategory => {
-        if (resNewCategory.status === '200') {
-          // this.showSuccess();
+        if (resNewCategory.status === 200) {
+          this._toasterService.Success(resNewCategory.message);
           this.modalRef.hide();
           this.viewCategory();
         } else {
-          // this.showError();
+          this._toasterService.Warning(resNewCategory.message);
         }
 
       });
@@ -42,6 +47,4 @@ export class GroupComponent implements OnInit {
     this._categoryService.viewCategory()
       .subscribe(resCategory =>  this.categorys = resCategory);
   }
-
-
 }
