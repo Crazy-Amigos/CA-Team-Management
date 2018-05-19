@@ -1,6 +1,7 @@
 
 
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 //build connection string
 var dbURI='mongodb://localhost/craZyAmigos';
@@ -48,8 +49,8 @@ var categorySchema = new mongoose.Schema ({
 var groupSchema = new mongoose.Schema ( {
   group: String ,
   designation : String,
+  category :[{ type: Schema.Types.ObjectId, ref: 'categories' }],
   updatedOn : { type: Date, default: Date.now },
-  category :[{ type: Schema.Types.ObjectId, ref: 'categories' }]
 })
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);
