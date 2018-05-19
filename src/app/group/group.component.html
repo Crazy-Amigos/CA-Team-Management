@@ -35,7 +35,7 @@
 <div class="col-xs-12">
   <div class="box">
     <div class="box-header">
-      <button type="button" class="btn btn-success right-side" (click)="openModal(template)">Create new</button>
+      <button type="button" class="btn btn-success right-side" (click)="openModal(template)">Create Category</button>
       <div class="box-tools">
         <div class="input-group input-group-sm" style="width: 150px;">
           <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
@@ -52,7 +52,7 @@
         <div class="col-md-4" *ngFor="let category of categorys">
 
           <!-- Profile Image -->
-          <a (click)="viwcategory(category._id)">
+          <a   (click)="viewDetails(category._id,category.category)">
           <div class="box box-danger">
             <div class="box-body box-profile">
 
@@ -76,4 +76,34 @@
 
   </div>
 </div>
+<div *ngIf="!viewGoupContainer" class="col-xs-12">
+  <div class="box">
+    <div class="box-header">
+      <button type="button" class="btn btn-success right-side" (click)="openModal(groupModel)">Create {{ _cat }} Group</button>
+      <div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 150px;">
+          <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ _cat }}
+
+  </div>
+</div>
+
+<ng-template #groupModel class="col-lg-7">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create {{ _cat }} Group</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Group
+  </div>
+</ng-template>
 

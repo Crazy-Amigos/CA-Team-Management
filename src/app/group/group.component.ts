@@ -15,6 +15,9 @@ import {ToasterService} from '../toaster.service';
 export class GroupComponent implements OnInit {
   modalRef: BsModalRef;
   categorys: Array<Category>;
+  _cat;
+  _id;
+  private viewGoupContainer: boolean = true ;
   constructor(
     private modalService: BsModalService ,
     private _categoryService: CategoryService,
@@ -46,5 +49,10 @@ export class GroupComponent implements OnInit {
   viewCategory() {
     this._categoryService.viewCategory()
       .subscribe(resCategory =>  this.categorys = resCategory);
+  }
+  viewDetails(_id, category) {
+    this._id = _id;
+    this._cat = category;
+    this.viewGoupContainer = false ;
   }
 }
