@@ -16,6 +16,7 @@ import { MembersComponent } from './members/members.component';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {ToasterService} from './toaster.service';
+import { CategoryComponent } from './group/category/category.component';
 // import {ToastModule} from 'ng2-toastr';
 // import {Observable} from 'rxjs';
 
@@ -30,7 +31,8 @@ import {ToasterService} from './toaster.service';
     SidebarComponent,
     FooterComponent,
     GroupComponent,
-    MembersComponent
+    MembersComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,

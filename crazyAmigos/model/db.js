@@ -48,7 +48,7 @@ var categorySchema = new mongoose.Schema ({
 });
 var groupSchema = new mongoose.Schema ( {
   group: String ,
-  designation : String,
+  description : String,
   category :[{ type: Schema.Types.ObjectId, ref: 'categories' }],
   updatedOn : { type: Date, default: Date.now },
 })

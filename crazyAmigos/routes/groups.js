@@ -5,18 +5,19 @@ var category=mongoose.model('category');
 var group=mongoose.model('group');
 
 router.post('/group',function (req,res,next) {
-  group.findOne({category:req.body.category,group: req.body.group},function (err,callBackGroup) {
+  group.findOne({group:req.body.group,category: req.body.category},function (err,callBackGroup) {
     if(!err){
       if(!callBackGroup){
         var objGroup =new group();
-        objGroup.group =req.boady.group;
-        objGroup.designation =req.boady.designation;
-        objGroup.category =req.boady.category;
+        objGroup.group =req.body.group;
+        objGroup.description =req.body.description;
+        objGroup.category =req.body.category;
         objGroup.save(function (bdErr,newGroup) {
           if(!bdErr){
             res.send({
               status:200,
-              message:'Group successfully Saved'
+              message:'Group successfully Created',
+              _id:newGroup.category
             })
           }
           else{
@@ -42,5 +43,18 @@ router.post('/group',function (req,res,next) {
     }
   });
 });
+router.get('/category/group/:id',function (req,res,next) {
+  group.find({category:req.params.id},function (err,listGroup) {
+    if (!err) {
+      res.json(listGroup)
+    } else {
+      res.send({
+        status: 400,
+        message: 'dbError : => ' + err
+      });
+    }
+  });
+});
+
 
 module.exports = router;

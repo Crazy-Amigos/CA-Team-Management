@@ -1,6 +1,6 @@
 export class Group {
   group: string ;
-  designation: string;
+  description: string;
   updatedOn: Date;
   category: string;
 }

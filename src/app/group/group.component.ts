@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {CategoryService} from '../category.service';
 import {Category} from '../variable/category';
 import {ToasterService} from '../toaster.service';
+import {Group} from '../variable/group';
 // import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -15,6 +16,7 @@ import {ToasterService} from '../toaster.service';
 export class GroupComponent implements OnInit {
   modalRef: BsModalRef;
   categorys: Array<Category>;
+  groups: Array<Group>;
   _cat;
   _id;
   private viewGoupContainer: boolean = true ;
@@ -33,6 +35,18 @@ export class GroupComponent implements OnInit {
   closeModel() {
     this.modalRef.hide();
   }
+  submitNewGroup(group: Group) {
+    this._categoryService.addGroup(group)
+      .subscribe(resNewGroup => {
+        if (resNewGroup.status === 200) {
+          this._toasterService.Success(resNewGroup.message);
+          this.modalRef.hide();
+          this.viewGroup(resNewGroup._id);
+        } else {
+          this._toasterService.Warning(resNewGroup.message);
+        }
+      });
+  }
   submitNewCategory(category: Category) {
     this._categoryService.addCategory(category)
       .subscribe(resNewCategory => {
@@ -50,9 +64,14 @@ export class GroupComponent implements OnInit {
     this._categoryService.viewCategory()
       .subscribe(resCategory =>  this.categorys = resCategory);
   }
-  viewDetails(_id, category) {
-    this._id = _id;
-    this._cat = category;
+  viewGroupDetails(category: Category) {
+    this._id = category._id;
+    this._cat = category.category;
     this.viewGoupContainer = false ;
+    this.viewGroup(this._id) ;
+  }
+  viewGroup(category_id) {
+    this._categoryService.viewGroup(category_id)
+      .subscribe(resAllGroup => this.groups = resAllGroup);
   }
 }
