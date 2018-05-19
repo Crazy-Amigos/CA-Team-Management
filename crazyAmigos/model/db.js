@@ -44,10 +44,17 @@ var categorySchema = new mongoose.Schema ({
   category : {type: String, unique:true},
   designation : String,
   updatedOn : { type: Date, default: Date.now }
+});
+var groupSchema = new mongoose.Schema ( {
+  group: String ,
+  designation : String,
+  updatedOn : { type: Date, default: Date.now },
+  category :[{ type: Schema.Types.ObjectId, ref: 'categories' }]
 })
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);
 mongoose.model('category',categorySchema);
+mongoose.model('group',groupSchema);
 /*
 var videosSchema = new mongoose.Schema({
   title: String,
