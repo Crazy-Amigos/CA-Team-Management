@@ -47,8 +47,8 @@ var categorySchema = new mongoose.Schema ({
   description : String,
   updatedOn : { type: Date, default: Date.now }
 });
-var teamSchema = new mongoose.Schema ( {
-  Name: String,
+var teamsSchema = new mongoose.Schema ( {
+  name: String,
   groups:[{
     name: String,
     icon:String,
@@ -57,7 +57,7 @@ var teamSchema = new mongoose.Schema ( {
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);
 mongoose.model('category',categorySchema);
-mongoose.model('group',groupSchema);
+mongoose.model('teams',teamsSchema);
 /*
 var videosSchema = new mongoose.Schema({
   title: String,

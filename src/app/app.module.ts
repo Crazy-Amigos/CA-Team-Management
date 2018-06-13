@@ -56,6 +56,7 @@ import {
   MatTreeModule,
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { TeamComponent } from './team/team.component';
 // import {ToastModule} from 'ng2-toastr';
 // import {Observable} from 'rxjs';
 
@@ -71,7 +72,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FooterComponent,
     GroupComponent,
     MembersComponent,
-    CategoryComponent
+    CategoryComponent,
+    TeamComponent
   ],
   imports: [
     CdkTableModule,

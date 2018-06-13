@@ -7,6 +7,7 @@ import {HomeComponent} from '../layouts/home/home.component';
 import {LoginlayoutComponent} from '../layouts/loginlayout/loginlayout.component';
 import {GroupComponent} from '../group/group.component';
 import {MembersComponent} from '../members/members.component';
+import {TeamComponent} from '../team/team.component';
 const routes: Routes = [
   {
     path: '',
@@ -14,15 +15,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent
+        component: TeamComponent
       },
       {
-        path: 'group',
-        component: GroupComponent
-      },
-      {
-        path: 'members',
-        component: MembersComponent
+        path: 'team',
+        component: TeamComponent
       }
     ]
   },
