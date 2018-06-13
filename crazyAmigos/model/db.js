@@ -39,18 +39,20 @@ var memberSchema = new mongoose.Schema ({
   mob : {type: String, unique:true},
   email : {type: String, unique:true},
   address : String,
+  group:[],
   updatedOn : { type: Date, default: Date.now }
 });
 var categorySchema = new mongoose.Schema ({
   category : {type: String, unique:true},
-  designation : String,
+  description : String,
   updatedOn : { type: Date, default: Date.now }
 });
-var groupSchema = new mongoose.Schema ( {
-  group: String ,
-  description : String,
-  category :[{ type: Schema.Types.ObjectId, ref: 'categories' }],
-  updatedOn : { type: Date, default: Date.now },
+var teamSchema = new mongoose.Schema ( {
+  Name: String,
+  groups:[{
+    name: String,
+    icon:String,
+  }]
 })
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);

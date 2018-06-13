@@ -7,4 +7,5 @@ export class Member {
   email: string;
   address: string;
   updatedOn: Date;
+  group: Array<string>;
 }

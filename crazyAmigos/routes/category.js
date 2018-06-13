@@ -2,14 +2,16 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var category=mongoose.model('category');
+var group=mongoose.model('group');
 
 router.post('/category',function (req,res,next) {
+    console.log(req.body);
     category.findOne({category:req.body.category},function (err,categ) {
       if(!err){
         if(!categ){
           var objCategory=new category();
           objCategory.category=req.body.category;
-          objCategory.designation=req.body.designation;
+          objCategory.description=req.body.description;
           objCategory.save(function (dbError,dbCallback) {
             if(!dbError){
               res.send({
@@ -43,5 +45,31 @@ router.get('/category',function (req,res,next) {
     console.log('exception => category view :'+ex);
   }
 });
+
+router.get('/dcategory',function (req,res,next) {
+  category.aggregate([
+    {
+      "$lookup":{
+        "from":"groups",
+        "localField":"_id",
+        "foreignField":"category",
+        "as":"groups"
+      }
+    }
+  ])
+    .exec(function (err,data) {
+      console.log(data);
+      res.json(data);
+    })
+
+});
+router.get('/count',function(req,res,next){
+  category.count({},function(err,count){
+    if(!err){
+      res.json(count);
+    }
+  })
+});
+
 
 module.exports = router;

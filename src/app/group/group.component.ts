@@ -19,7 +19,7 @@ export class GroupComponent implements OnInit {
   groups: Array<Group>;
   _cat;
   _id;
-  private viewGoupContainer: boolean = true ;
+  private viewGoupContainer:boolean = true ;
   constructor(
     private modalService: BsModalService ,
     private _categoryService: CategoryService,

@@ -53,6 +53,24 @@
             </div>
           </div>
         </div>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let details of catDetails">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="primary">
+                Category Name
+              </mat-panel-title>
+              <mat-panel-description>
+                {{details.category}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list role="list" *ngFor="let grp of details.groups">
+              <!--<ng-template ngIf=""></ng-template> -->
+              <mat-checkbox  name="group" (change)="setValue($event,grp._id)"  >
+                <mat-list-item>{{grp.group}}</mat-list-item>
+              </mat-checkbox>
+            </mat-list>
+          </mat-expansion-panel>
+        </mat-accordion>
         <!-- /.box-body -->
         <div class="box-footer">
           <button type="button" (click)="modalRef.hide()" class="btn btn-default">Cancel</button>
@@ -60,6 +78,86 @@
         </div>
         <!-- /.box-footer -->
       </form>
+  </div>
+</ng-template>
+
+<ng-template #editTemplate class="col-lg-7">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Members</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm" (ngSubmit)="submitNewMember(form.value)" class="form-horizontal">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="txtName" class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control"  name="name" placeholder="Full Name" ngModel >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtMobile" class="col-sm-2 control-label">Mobile</label>
+
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="mob"  placeholder="+91-9876543210" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtEmail" class="col-sm-2 control-label">email</label>
+
+          <div class="col-sm-10">
+            <input type="email" class="form-control" name="email"  placeholder="example@gmail.com" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtDes" class="col-sm-2 control-label">Designation</label>
+
+          <div class="col-sm-10">
+            <input type="text" name="designation" class="form-control"  placeholder="Designation" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtSpecify" class="col-sm-2 control-label">specify</label>
+
+          <div class="col-sm-10">
+            <input type="text" name="description" class="form-control"  placeholder="Specify" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtAddress" class="col-sm-2 control-label">Address</label>
+
+          <div class="col-sm-10">
+            <textarea type="text" name="address" class="form-control"  placeholder="Address" ngModel></textarea>
+          </div>
+        </div>
+      </div>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let det of catDetails">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="primary">
+              Category Name
+            </mat-panel-title>
+            <mat-panel-description>
+              {{det.category}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list role="list" *ngFor="let grps of det.groups">
+            <!--<ng-template ngIf=""></ng-template> -->
+            <mat-checkbox  name="group" (change)="setValue($event,grps._id)"  >
+              <mat-list-item>{{grps.group}}</mat-list-item>
+            </mat-checkbox>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <button type="button" (click)="modalRef.hide()" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-info pull-right">Create New</button>
+      </div>
+      <!-- /.box-footer -->
+    </form>
   </div>
 </ng-template>
 
@@ -102,7 +200,7 @@
                   <b>Address</b> <a class="pull-right">{{member.address}}</a>
                 </li>
               </ul>
-              <a href="#" class="btn btn-primary btn-block"><b>Edit Detail</b></a>
+              <a type="button" (click)="openEditModel(editTemplate,member)" class="btn btn-primary btn-block"><b>Edit Detail</b></a>
             </div>
             <!-- /.box-body -->
           </div>

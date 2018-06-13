@@ -23,4 +23,8 @@ export class MemberService {
     return this._http.post(this._postUrl, JSON.stringify(member), option)
       .pipe(map((response: Response) => response.json()));
   }
+  getMember(_id) {
+    return this._http.get(this._getUrl + '/' + _id)
+      .pipe(map((response: Response) => response.json()));
+  }
 }

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var members =mongoose.model('members');
+var group=mongoose.model('group');
+var category= mongoose.model('category');
 
 router.post('/member',function (req,res,next) {
   try{
@@ -12,10 +14,12 @@ router.post('/member',function (req,res,next) {
     objMembers.mob = req.body.mob;
     objMembers.email = req.body.email;
     objMembers.address = req.body.address;
+    objMembers.group = req.body.group;
     objMembers.save(function (err,callbackvalue) {
       if(err){
         console.log('Error in member creation');
       }else{
+        // console.log(callbackvalue);
         res.json(callbackvalue);
       }
     });
@@ -25,12 +29,22 @@ router.post('/member',function (req,res,next) {
 
 });
 router.get('/member',function (req,res,next) {
-  members.find({},function (err,members) {
+  members.find({},function (err,mem) {
     if(!err){
-      res.json(members);
+      //console.log(mem);
+      res.json(mem);
     }else{
       console.log('Error in view member');
     }
   })
-})
+});
+router.get('/member/:id', function (req,res,next){
+  members.findOne({_id:req.params.id}, function(err,data){
+    if(!err){
+      res.json(data);
+    }
+  });
+});
+//https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
+
 module.exports = router;

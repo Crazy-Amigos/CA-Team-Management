@@ -9,12 +9,22 @@ import {Group} from './variable/group';
 export class CategoryService {
   private _postUrl = '/amigosApi/cat/category';
   private _getUrl = '/amigosApi/cat/category';
+  private _getDUrl = '/amigosApi/cat/dcategory';
+  private _getCategoryCountUrl = '/amigosApi/cat/count';
   private _postGroupUrl = '/amigosApi/grp/group';
   private _getGroupUrl = '/amigosApi/grp/category/group/';
 
   constructor(private _http: Http) { }
   viewCategory() {
     return this._http.get(this._getUrl)
+      .pipe(map((responce: Response) => responce.json()));
+  }
+  viewCategoryCount() {
+    return this._http.get(this._getCategoryCountUrl)
+      .pipe(map((responce:Response) => responce.json()));
+  }
+  viewDetaildCategory() {
+    return this._http.get(this._getDUrl)
       .pipe(map((responce: Response) => responce.json()));
   }
   addCategory(category: Category) {
