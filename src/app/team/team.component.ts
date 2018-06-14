@@ -1,10 +1,17 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef , ElementRef} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {Team} from '../variable/team';
 import {TeamService} from '../team.service';
 import {ToasterService} from '../toaster.service';
 import {Group} from '../variable/group';
+import { Http, Response , RequestOptions } from '@angular/http';
+import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+const URL = '/amigosApi/teams/';
+// import the do function to be used with the http library.
+// import 'rxjs/add/operator/do';
+// import the map function to be used with the http library
+// import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-team',
@@ -13,13 +20,20 @@ import {Group} from '../variable/group';
   providers: [TeamService]
 })
 export class TeamComponent implements OnInit {
-  filesToUpload: File;
+  fileList: FileList ;
   team_name;
+  // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
   teams: Array<Team>
   modalRef: BsModalRef;
-  constructor(private modalService: BsModalService, private _toasterService: ToasterService, private _teamService: TeamService) { }
+  constructor(
+    private modalService: BsModalService,
+    private _toasterService: ToasterService,
+    private _teamService: TeamService ,
+    private http: Http,
+    private el: ElementRef) { }
 
   ngOnInit() {
+    // this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
     this.getTeam();
   }
   openModal(template: TemplateRef<any>, team) {
@@ -46,25 +60,29 @@ export class TeamComponent implements OnInit {
     this._teamService.getTeam()
       .subscribe(resTeam => this.teams = resTeam );
   }
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = fileInput;
+  fileChangeEvent(event) {
+    this.fileList = event.target.files;
+    console.log(this.fileList);
   }
-  newGroup(formdata, teamName) {
-    // group.files = this.filesToUpload;
-    // console.log( 'file :' + this.filesToUpload);
-    // console.log(group.files);
-    this._teamService.addNewGroup(formdata, teamName, this.filesToUpload )
-      .subscribe(resNewGroup => {
-        if (resNewGroup.status === 200) {
-          this._toasterService.Success(resNewGroup.message);
-          this.modalRef.hide();
-          // this.getTeam();
-        } else {
-          this._toasterService.Warning(resNewGroup.message);
-        }
+  newGroup(group: Group, teamName) {
+    // console.log(this.fileList);
+    if ( this.fileList.length > 0) {
+      const file: File = this.fileList[0];
+      const formData: FormData = new FormData();
+      formData.append('uploadFile', file, file.name);
+      formData.append('name', group.name);
+      this._teamService.addNewGroup(formData, teamName)
+        .subscribe(resNewTeam => {
+          if (resNewTeam.status === 200) {
+            this._toasterService.Success(resNewTeam.message);
+            this.modalRef.hide();
+            this.getTeam();
+            this.fileList = null ;
+          } else {
+            this._toasterService.Warning(resNewTeam.message);
+          }
 
-      });
+        });
+    }
   }
-
-
 }

@@ -17,7 +17,7 @@
       <mat-expansion-panel *ngFor="let team of teams">
         <mat-expansion-panel-header>
           <mat-panel-title class="primary">
-            Team Name
+            Team : {{team.name}}
           </mat-panel-title>
           <mat-panel-description>
             {{team.name}}
@@ -26,13 +26,19 @@
         <mat-list role="list">
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-success right-side" (click)="openModal(groupModel,team.name)">Create</button>
+              <button type="button" class="btn btn-success right-side" (click)="openModal(groupModel,team.name)">{{team.name}} Create Group</button>
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
+                </div>
+              </div>
+              <div class="container">
+                <div style="margin-top: 20px ;border: 1px solid #1a2226;height: 150px"  class="card col-md-2" *ngFor="let group of team.groups">
+                  <img src={{group.icon}} alt="John" style="width:100%;height:100px;">
+                  <h1>{{group.name}}</h1>
                 </div>
               </div>
             </div>
@@ -82,7 +88,8 @@
     </button>
   </div>
   <div class="modal-body">
-    <form #form="ngForm" (ngSubmit)="newGroup(form.value,team_name)" class="form-horizontal">
+    <!-- form for creating new Group -->
+    <form #form="ngForm" (ngSubmit)="newGroup(form.value,team_name)" encrypt="multipart/form-data" class="form-horizontal">
       <div class="box-body">
         <div class="form-group">
           <label for="txtCategory" class="col-sm-2 control-label">Group Name</label>
@@ -95,7 +102,7 @@
         <div class="form-group">
           <label for="txtCategory" class="col-sm-2 control-label">Icon</label>
           <div class="col-sm-10">
-            <input type="file" name="file" (change)="fileChangeEvent($event)" placeholder="Upload file...">
+            <input id="photo" (change)="fileChangeEvent($event)" type="file" />
           </div>
         </div>
       </div>
@@ -106,6 +113,7 @@
       </div>
       <!-- /.box-footer -->
     </form>
+    <!-- end form for creating new Group -->
   </div>
 </ng-template>
 <!-- Group Team Model -->

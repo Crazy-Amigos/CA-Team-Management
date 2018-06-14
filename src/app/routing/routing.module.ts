@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'team',
         component: TeamComponent
+      },
+      {
+        path: 'members',
+        component: MembersComponent
       }
     ]
   },

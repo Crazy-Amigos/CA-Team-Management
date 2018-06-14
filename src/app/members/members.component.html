@@ -54,19 +54,19 @@
           </div>
         </div>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let details of catDetails">
+          <mat-expansion-panel *ngFor="let team of teams">
             <mat-expansion-panel-header>
               <mat-panel-title class="primary">
                 Category Name
               </mat-panel-title>
               <mat-panel-description>
-                {{details.category}}
+                {{team.name}}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <mat-list role="list" *ngFor="let grp of details.groups">
+            <mat-list role="list" *ngFor="let group of team.groups">
               <!--<ng-template ngIf=""></ng-template> -->
-              <mat-checkbox  name="group" (change)="setValue($event,grp._id)"  >
-                <mat-list-item>{{grp.group}}</mat-list-item>
+              <mat-checkbox  name="group" (change)="setValue($event,group._id)"  >
+                <mat-list-item>{{group.name}}</mat-list-item>
               </mat-checkbox>
             </mat-list>
           </mat-expansion-panel>
@@ -134,19 +134,18 @@
         </div>
       </div>
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let det of catDetails">
+        <mat-expansion-panel *ngFor="let team of teams">
           <mat-expansion-panel-header>
             <mat-panel-title class="primary">
               Category Name
             </mat-panel-title>
             <mat-panel-description>
-              {{det.category}}
+              {{team.name}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list role="list" *ngFor="let grps of det.groups">
-            <!--<ng-template ngIf=""></ng-template> -->
-            <mat-checkbox  name="group" (change)="setValue($event,grps._id)"  >
-              <mat-list-item>{{grps.group}}</mat-list-item>
+          <mat-list role="list" *ngFor="let group of team.groups">
+            <mat-checkbox  name="group" (change)="setValue($event,group._id)"  >
+              <mat-list-item>{{group.group}}</mat-list-item>
             </mat-checkbox>
           </mat-list>
         </mat-expansion-panel>

@@ -34,11 +34,9 @@ var userSchema = new mongoose.Schema({
 });
 var memberSchema = new mongoose.Schema ({
   name : String,
-  designation : String ,
-  description : String,
   mob : {type: String, unique:true},
   email : {type: String, unique:true},
-  address : String,
+  telegram : {type: String, unique:true},
   group:[],
   updatedOn : { type: Date, default: Date.now }
 });

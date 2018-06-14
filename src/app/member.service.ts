@@ -12,10 +12,6 @@ export class MemberService {
   private _getUrl = '/amigosApi/mem/member';
 
   constructor(private _http: Http) { }
-  getMembers() {
-    return this._http.get(this._getUrl)
-      .pipe(map((response: Response) => response.json()));
-  }
   addmbers(member: Member) {
     // console.log(member);
     const headers = new Headers({'Content-Type': 'application/json'});

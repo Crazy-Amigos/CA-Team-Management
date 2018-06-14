@@ -7,45 +7,51 @@ import { CategoryService} from '../category.service';
 import {Category} from '../variable/category';
 import {Group} from '../variable/group';
 import {CategoryDetails} from '../variable/detaildCategory';
+import {TeamService} from '../team.service';
+import {Team} from '../variable/team';
 
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.css'],
-  providers: [MemberService, CategoryService]
+  providers: [MemberService, CategoryService , TeamService]
 })
 export class MembersComponent implements OnInit {
   modalRef: BsModalRef;
   members: Array<Member>;
+  teams: Array<Team>;
   categorys: Array<Category>;
   groups: Array<Group>
   catDetails: Array<CategoryDetails>
   selectedMembers: Member;
   arryCat = [];
-  constructor(private _modelService: BsModalService , private _memberService: MemberService , private _categoryServie: CategoryService) { }
+  constructor(
+    private _modelService: BsModalService ,
+    private _memberService: MemberService ,
+    private _categoryServie: CategoryService,
+    private _teamService: TeamService) { }
 
   ngOnInit() {
-    this.getMembers();
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this._modelService.show(template);
-    this.getDetaildCategorry();
+    this.getTeamDetails();
   }
   closeModel() {
     this.modalRef.hide();
   }
+  getTeamDetails() {
+    this._teamService.getTeam()
+      .subscribe(resTeamDeatails => this.teams = resTeamDeatails);
+  }
+  /*
   submitNewMember(member: Member) {
     member.group = this.arryCat;
     this._memberService.addmbers(member)
       .subscribe(resNewMember => {
         this.modalRef.hide();
-        this.getMembers();
         console.log('Success');
      });
-  }
-  getMembers() {
-    this._memberService.getMembers()
-      .subscribe(resMemberDate => this.members = resMemberDate );
   }
   getCategorys() {
     this._categoryServie.viewCategory()
@@ -58,6 +64,10 @@ export class MembersComponent implements OnInit {
   getDetaildCategorry() {
     this._categoryServie.viewDetaildCategory()
       .subscribe(resCategorry => this.catDetails = resCategorry);
+  }
+  getTeamDetails() {
+    this._teamService.getTeam()
+      .subscribe(resTeamDeatails => this.teams = resTeamDeatails);
   }
   getDetaildMembers(_id) {
     this._memberService.getMember(_id)
@@ -81,5 +91,6 @@ export class MembersComponent implements OnInit {
     this.getDetaildCategorry();
     this.getDetaildMembers(member._id);
   }
+  */
 
 }

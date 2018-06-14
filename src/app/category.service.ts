@@ -21,7 +21,7 @@ export class CategoryService {
   }
   viewCategoryCount() {
     return this._http.get(this._getCategoryCountUrl)
-      .pipe(map((responce:Response) => responce.json()));
+      .pipe(map((responce: Response) => responce.json()));
   }
   viewDetaildCategory() {
     return this._http.get(this._getDUrl)
