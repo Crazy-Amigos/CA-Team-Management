@@ -8,15 +8,19 @@ import {map} from 'rxjs/internal/operators';
 
 @Injectable ()
 export class MemberService {
-  private _postUrl = '/amigosApi/mem/member';
-  private _getUrl = '/amigosApi/mem/member';
+  private _postUrl = '/amigosApi/mem/';
+  private _getUrl = '/amigosApi/mem/';
 
   constructor(private _http: Http) { }
-  addmbers(member: Member) {
-    // console.log(member);
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const option = new RequestOptions({headers: headers});
-    return this._http.post(this._postUrl, JSON.stringify(member), option)
+  getMembbers() {
+    return this._http.get(this._getUrl)
+      .pipe(map((responce: Response) => responce.json()));
+  }
+  addmbers(formData) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.post(this._postUrl, formData , options)
       .pipe(map((response: Response) => response.json()));
   }
   getMember(_id) {

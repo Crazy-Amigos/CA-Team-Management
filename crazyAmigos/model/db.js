@@ -37,7 +37,10 @@ var memberSchema = new mongoose.Schema ({
   mob : {type: String, unique:true},
   email : {type: String, unique:true},
   telegram : {type: String, unique:true},
+  image: String,
   group:[],
+  place: String,
+  status:{type: Boolean, default: false },
   updatedOn : { type: Date, default: Date.now }
 });
 var categorySchema = new mongoose.Schema ({

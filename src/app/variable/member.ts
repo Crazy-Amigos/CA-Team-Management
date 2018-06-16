@@ -1,11 +1,12 @@
 export class Member {
   _id: string;
   name: string;
-  designation: string ;
-  description: string;
-  mob: string;
+  mob: string ;
   email: string;
-  address: string;
-  updatedOn: Date;
+  telegram: string;
+  image: string;
+  place: string;
+  status: string;
   group: Array<string>;
+  updatedOn: Date;
 }

@@ -7,7 +7,7 @@ var mkdir = require('mkdirp');
 router.get('/',function (req,res,next) {
   teams.find({},function (err,listTeam) {
     if(!err){
-      console.log(listTeam);
+      // console.log(listTeam);
       res.json(listTeam);
     }else{
       console.log('Error : (Teams) => dbError');

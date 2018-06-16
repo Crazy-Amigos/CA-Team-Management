@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/amigosApi/teams',teams);
+app.use('/amigosApi/mem',members);
 // Static files
 app.use(express.static(__dirname + '/public'));
 
