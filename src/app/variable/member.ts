@@ -1,3 +1,4 @@
+import {Group} from './group';
 export class Member {
   _id: string;
   name: string;
@@ -7,6 +8,6 @@ export class Member {
   image: string;
   place: string;
   status: string;
-  group: Array<string>;
+  groups: Array<Group>;
   updatedOn: Date;
 }

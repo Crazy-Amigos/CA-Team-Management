@@ -85,13 +85,15 @@ export class MembersComponent implements OnInit {
       formData.append('email', member.email);
       formData.append('telegram', member.telegram);
       formData.append('place', member.place);
-      formData.append('group', this.arryCat.toString());
-      this._memberService.addmbers(formData)
+      for (var i = 0; i < this.arryCat.length; i++) {
+        formData.append('group', this.arryCat[i]);
+      }
+      this._memberService.addmbers(formData, this.arryCat)
         .subscribe(resNewTeam => {
           if (resNewTeam.status === 200) {
             this._toasterService.Success(resNewTeam.message);
             this.modalRef.hide();
-            // this.getTeam();
+            this.getMembers();
             this.fileList = null;
           } else {
             this._toasterService.Warning(resNewTeam.message);

@@ -16,7 +16,8 @@ export class MemberService {
     return this._http.get(this._getUrl)
       .pipe(map((responce: Response) => responce.json()));
   }
-  addmbers(formData) {
+  addmbers(formData, ListGroupArray) {
+    // formData.group = ListGroupArray ;
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});

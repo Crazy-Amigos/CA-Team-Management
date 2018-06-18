@@ -5,6 +5,7 @@ var members=mongoose.model('members');
 
 router.post('/',function(req,res,next){
   if(req.files){
+    console.log(req.body);
     var uploadFile = req.files.uploadFile;
     members.findOne({mob:req.body.mob},function(dbErro,objmem){
       if(!dbErro){
@@ -15,9 +16,9 @@ router.post('/',function(req,res,next){
           objMember.email=req.body.email;
           objMember.telegram=req.body.telegram;
           objMember.image='/uploads/members/'+req.body.mob+"_dp.jpeg";
-          objMember.palce=req.body.palce;
+          objMember.place=req.body.place;
           objMember.group=req.body.group;
-          objMember.status=req.body.status;
+          objMember.status=true;
           objMember.save(function(dbSavingError,savedData){
             if(!dbSavingError){
               uploadFile.mv('public/uploads/members/'+req.body.mob+'_dp.jpeg',function(err){
@@ -70,6 +71,7 @@ router.get('/',function(req,res,next){
       })
     }
   });
-})
+});
+
 
 module.exports = router;
