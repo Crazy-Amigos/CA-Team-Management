@@ -2,6 +2,9 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var bcrypt=require('bcrypt-nodejs');
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 //build connection string
 var dbURI='mongodb://localhost/craZyAmigos';
@@ -25,13 +28,6 @@ process.on('SIGINT', function() {
     process.exit(0);
   });
 });
-
-var userSchema = new mongoose.Schema({
-  userName : {type: String, unique:true},
-  password : String,
-  CreatedOn: { type: Date, default: Date.now },
-  updatedOn : { type: Date, default: Date.now }
-});
 var memberSchema = new mongoose.Schema ({
   name : String,
   mob : {type: String, unique:true},
@@ -54,11 +50,17 @@ var teamsSchema = new mongoose.Schema ( {
     name: String,
     icon:String,
   }]
+});
+var userSchema = new mongoose.Schema ( {
+  email: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  hash: String,
+  salt: String
 })
-mongoose.model('users',userSchema);
-mongoose.model('members',memberSchema);
-mongoose.model('category',categorySchema);
-mongoose.model('teams',teamsSchema);
+
 /*
 var videosSchema = new mongoose.Schema({
   title: String,
@@ -69,3 +71,26 @@ var videosSchema = new mongoose.Schema({
 
 mongoose.model('videos', videosSchema,'videos');
 */
+userSchema.methods.setPassword = function(password){
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
+};
+userSchema.methods.validPassword = function(password) {
+  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
+  return this.hash === hash;
+};
+userSchema.methods.generateJwt = function() {
+  var expiry = new Date();
+  expiry.setDate(expiry.getDate() + 7);
+
+  return jwt.sign({
+    _id: this._id,
+    email: this.email,
+    exp: parseInt(expiry.getTime() / 1000),
+  }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+};
+
+mongoose.model('users',userSchema);
+mongoose.model('members',memberSchema);
+mongoose.model('category',categorySchema);
+mongoose.model('teams',teamsSchema);

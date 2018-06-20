@@ -8,10 +8,14 @@ import {LoginlayoutComponent} from '../layouts/loginlayout/loginlayout.component
 import {GroupComponent} from '../group/group.component';
 import {MembersComponent} from '../members/members.component';
 import {TeamComponent} from '../team/team.component';
+import {RegiisterComponent} from '../regiister/regiister.component';
+import {AuthGuard as AuthGuard } from '../guard/auth.guard';
+
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -24,6 +28,10 @@ const routes: Routes = [
       {
         path: 'members',
         component: MembersComponent
+      },
+      {
+        path: 'register',
+        component: RegiisterComponent
       }
     ]
   },

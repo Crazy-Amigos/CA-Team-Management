@@ -15,9 +15,11 @@ import { FooterComponent } from './footer/footer.component';
 import { GroupComponent } from './group/group.component';
 import { MembersComponent } from './members/members.component';
 import {HttpModule} from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {ToasterService} from './toaster.service';
 import { CategoryComponent } from './group/category/category.component';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -55,10 +57,18 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { JwtModule } from '@auth0/angular-jwt';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { TeamComponent } from './team/team.component';
+import { RegiisterComponent } from './regiister/regiister.component';
+import {AuthGuardService} from './auth/auth-guard.service';
+import {AuthGuard} from './guard/auth.guard';
+import {AuthService} from './auth/auth.service';
 // import {ToastModule} from 'ng2-toastr';
 // import {Observable} from 'rxjs';
+export function tokenGetter() {
+  return localStorage.getItem('mean-token');
+}
 
 @NgModule({
   declarations: [
@@ -73,7 +83,8 @@ import { TeamComponent } from './team/team.component';
     GroupComponent,
     MembersComponent,
     CategoryComponent,
-    TeamComponent
+    TeamComponent,
+    RegiisterComponent
   ],
   imports: [
     CdkTableModule,
@@ -117,11 +128,19 @@ import { TeamComponent } from './team/team.component';
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     HttpModule,
+    HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:3000'],
+        blacklistedRoutes: ['localhost:3000/auth/']
+      }
+    })
     // ToastModule.forRoot()
     // Observable
   ],
-  providers: [ToasterService],
+  providers: [ToasterService, AuthService, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
