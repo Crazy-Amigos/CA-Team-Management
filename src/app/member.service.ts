@@ -10,6 +10,7 @@ import {map} from 'rxjs/internal/operators';
 export class MemberService {
   private _postUrl = '/amigosApi/mem/';
   private _getUrl = '/amigosApi/mem/';
+  private _getMemberUrl = '/amigosApi/mem/details/';
 
   constructor(private _http: Http) { }
   getMembbers() {
@@ -26,6 +27,20 @@ export class MemberService {
   }
   getMember(_id) {
     return this._http.get(this._getUrl + '/' + _id)
+      .pipe(map((response: Response) => response.json()));
+  }
+  getIntividualMember(id) {
+    alert('hello : ' + id);
+    return this._http.get('/amigosApi/mem/member/' + id)
+      .pipe(map((response: Response) => response.json()));
+  }
+  statusMembers(id, status) {
+    const objMembers = new Member();
+    objMembers.status = status;
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.put(this._postUrl + '/' + id, objMembers , options)
       .pipe(map((response: Response) => response.json()));
   }
 }

@@ -79,7 +79,8 @@ router.get('/:group_id', function (req, res, next) {
       "$group": {
         "_id": "$_id",
         "name": {"$first": "$name"},
-        "image": {"$first": "$image"}
+        "image": {"$first": "$image"},
+        "status": {"$first": "$status"},
       }
     }
   ], function (err, results) {
@@ -102,8 +103,11 @@ router.get('/:group_id', function (req, res, next) {
   })
 });
 router.get('/member/:id', function (req, res, next){
+  //console.log('members');
+  //console.log(req.params.id);
   members.findOne({_id:req.params.id},function(dbError,detailsmember){
     if(!dbError){
+      //console.log(detailsmember);
       res.json(detailsmember);
     }else{
       res.send({
@@ -121,5 +125,28 @@ router.get('/test/:id', function (req, res, next){
       res.json(messsages);
     });
 });
+router.put('/:id',function (req,res,next) {
+  members.findByIdAndUpdate(req.params.id,
+    {
+      $set: {
+        status:req.body.status
+      }
+    },
+    {
+      new:true
+    },function (err,updateDetails) {
+      if(!err){
+        res.send({
+          status: 200,
+          message: 'Status Successfully changed'
+        });
+      }else{
+        res.send({
+          status: 400,
+          message: 'Some Error getting in status change Please try after some time '
+        });
+      }
+    })
+})
 
 module.exports = router;

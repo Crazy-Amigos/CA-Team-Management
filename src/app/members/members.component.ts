@@ -24,6 +24,7 @@ export class MembersComponent implements OnInit {
   modalRef: BsModalRef;
   members: Array<Member>;
   teams: Array<Team>;
+  testMember: Array<Team>;
   categorys: Array<Category>;
   groups: Array<Group>
   catDetails: Array<CategoryDetails>
@@ -114,54 +115,47 @@ export class MembersComponent implements OnInit {
     this._memberService.getMembbers()
       .subscribe(resMember => this.members = resMember);
   }
+  inactive(member_id) {
+    this._memberService.statusMembers(member_id, false)
+      .subscribe(resStatus => {
+        if (resStatus.status === 200) {
+          this._toasterService.Success(resStatus.message);
+          this.getMembers();
+        } else {
+          this._toasterService.Warning(resStatus.message);
+        }
 
-  /*
-  submitNewMember(member: Member) {
-    member.group = this.arryCat;
-    this._memberService.addmbers(member)
-      .subscribe(resNewMember => {
-        this.modalRef.hide();
-        console.log('Success');
-     });
+      });
   }
-  getCategorys() {
-    this._categoryServie.viewCategory()
-      .subscribe(resCategory => this.categorys = resCategory);
+  active(member_id) {
+    this._memberService.statusMembers(member_id, true)
+      .subscribe(resStatus => {
+        if (resStatus.status === 200) {
+          this._toasterService.Success(resStatus.message);
+          this.getMembers();
+        } else {
+          this._toasterService.Warning(resStatus.message);
+        }
+
+      });
   }
-  chengeVale(_catId) {
-    this._categoryServie.viewGroup(_catId)
-      .subscribe((resGroup => this.groups = resGroup));
+  delete(member_id) {
+
   }
-  getDetaildCategorry() {
-    this._categoryServie.viewDetaildCategory()
-      .subscribe(resCategorry => this.catDetails = resCategorry);
+  memberDetails(id) {
+    this._memberService.getIntividualMember(id)
+      .subscribe(resTeamDeatails => this.testMember = resTeamDeatails);
+    console.log(this.testMember);
   }
-  getTeamDetails() {
-    this._teamService.getTeam()
-      .subscribe(resTeamDeatails => this.teams = resTeamDeatails);
-  }
-  getDetaildMembers(_id) {
-    this._memberService.getMember(_id)
-      .subscribe(resMember => this.members = resMember);
-  }
-  setValue(evnt, data) {
-    console.log(evnt);
-    // alert(evnt);
-    if ( evnt.checked === true) {
-      this.arryCat.push(data);
-    } else {
-      const index = this.arryCat.indexOf(data, 0);
-      if (index > -1) {
-        this.arryCat.splice(index, 1);
-      }
-    }
-    console.log(this.arryCat);
-  }
-  openEditModel(template: TemplateRef<any> , member: Member ) {
+  editOpenModal(template: TemplateRef<any>, id) {
+    // console.log('id :' + id);
+    // this.name = this.member.name;
+    this.memberDetails(id);
     this.modalRef = this._modelService.show(template);
-    this.getDetaildCategorry();
-    this.getDetaildMembers(member._id);
+
+    // this.name = this.member.name;
+    // console.log(this.members);
+    this.getTeamDetails();
   }
-  */
 
 }
