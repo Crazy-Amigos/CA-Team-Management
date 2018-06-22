@@ -181,35 +181,35 @@
         <div class="form-group">
           <label for="txtEdName" class="col-sm-2 control-label">Name</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="txtEdName"   name="name" placeholder="Full Name" [(ngModel)]="name"   >
+            <input type="text" class="form-control" id="txtEdName"   name="name" placeholder="Full Name" [(ngModel)]="Mem.name"   >
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdMobile" class="col-sm-2 control-label">Mobile</label>
 
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="mob" id="txtEdMobile" placeholder="+91-9876543210" ngModel>
+            <input type="text" class="form-control" name="mob" id="txtEdMobile" placeholder="+91-9876543210" [(ngModel)]="Mem.mob"  >
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdEmail" class="col-sm-2 control-label">email</label>
 
           <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" id="txtEdEmail" placeholder="example@gmail.com" ngModel>
+            <input type="email" class="form-control" name="email" id="txtEdEmail" placeholder="example@gmail.com" [(ngModel)]="Mem.email">
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdtelegram" class="col-sm-2 control-label">Telegram iD</label>
 
           <div class="col-sm-10">
-            <input type="text" name="telegram" class="form-control" id="txtEdtelegram" placeholder="Telegram ID" ngModel>
+            <input type="text" name="telegram" class="form-control" id="txtEdtelegram" placeholder="Telegram ID" [(ngModel)]="Mem.telegram">
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdpalce" class="col-sm-2 control-label">place</label>
 
           <div class="col-sm-10">
-            <input type="text" name="place" class="form-control" id="txtEdpalce" placeholder="palce" ngModel>
+            <input type="text" name="place" class="form-control" id="txtEdpalce" placeholder="palce" [(ngModel)]="Mem.place">
           </div>
         </div>
 
@@ -217,7 +217,7 @@
           <label for="txtName" class="col-sm-2 control-label">Profile Pic</label>
           <div class="col-sm-10">
             <div id="Edprofile-container">
-              <img style="background:#9d9d9d" [src]="data">
+              <img style="background:#9d9d9d" [src]="Mem.image" [(ngModel)]="Mem.image">
             </div>
             <input id="EdimageUpload" type="file" accept=".png, .jpg, .jpeg" (change)="fileChangeListener($event)"
                    name="profile_photo" placeholder="Photo" required="" capture>
@@ -235,12 +235,20 @@
               {{team.name}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list role="list" *ngFor="let group of team.groups">
-            <!--<ng-template ngIf=""></ng-template> -->
-            <mat-checkbox  name="group" (change)="setValue($event,group._id)"  >
-              <img src={{group.icon}} style="width:50px;height:50px">
-              <mat-list-item>{{group.name}}</mat-list-item>
-            </mat-checkbox>
+          <mat-list  role="list" *ngFor="let group of team.groups">
+            <ng-template ngIf="Mem.status == group._id">
+              <mat-checkbox [checked]="true"  name="group" (change)="setValue($event,group._id)"  >
+                <img src={{group.icon}} style="width:50px;height:50px">
+                <mat-list-item >{{group.name}}</mat-list-item>
+              </mat-checkbox>
+            </ng-template>
+            <ng-template ngIf="Mem.status != group._id">
+              <mat-checkbox  name="group" (change)="setValue($event,group._id)"  >
+                <img src={{group.icon}} style="width:50px;height:50px">
+                <mat-list-item >{{group.name}}</mat-list-item>
+              </mat-checkbox>
+            </ng-template>
+
           </mat-list>
         </mat-expansion-panel>
       </mat-accordion>

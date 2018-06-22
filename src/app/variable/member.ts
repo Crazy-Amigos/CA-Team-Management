@@ -11,3 +11,15 @@ export class Member {
   groups: Array<Group>;
   updatedOn: Date;
 }
+export interface Mem {
+  _id: string;
+  name: string;
+  mob: string ;
+  email: string;
+  telegram: string;
+  image: string;
+  place: string;
+  status: string;
+  groups: Array<Group>;
+  updatedOn: Date;
+}

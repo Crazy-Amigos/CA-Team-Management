@@ -30,7 +30,6 @@ export class MemberService {
       .pipe(map((response: Response) => response.json()));
   }
   getIntividualMember(id) {
-    alert('hello : ' + id);
     return this._http.get('/amigosApi/mem/member/' + id)
       .pipe(map((response: Response) => response.json()));
   }

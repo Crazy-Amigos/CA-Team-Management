@@ -2,7 +2,7 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {MemberService} from '../member.service';
-import { Member} from '../variable/member';
+import {Member, Mem} from '../variable/member';
 import { CategoryService} from '../category.service';
 import {Category} from '../variable/category';
 import {Group} from '../variable/group';
@@ -10,6 +10,7 @@ import {CategoryDetails} from '../variable/detaildCategory';
 import {TeamService} from '../team.service';
 import {Team} from '../variable/team';
 import {ToasterService} from '../toaster.service';
+import {TokenPayload} from '../auth/auth.service';
 
 @Component({
   selector: 'app-members',
@@ -18,6 +19,17 @@ import {ToasterService} from '../toaster.service';
   providers: [MemberService, CategoryService , TeamService, ToasterService]
 })
 export class MembersComponent implements OnInit {
+  Mem = {
+    _id: '',
+    name: '',
+    mob:  '',
+    email:  '',
+    telegram:  '',
+    image:  '',
+    place:  '',
+    status:  '',
+    groups:  '',
+  };
   fileList: FileList ;
   public file_srcs: string[] = [];
   data: any;
@@ -144,17 +156,22 @@ export class MembersComponent implements OnInit {
   }
   memberDetails(id) {
     this._memberService.getIntividualMember(id)
-      .subscribe(resTeamDeatails => this.testMember = resTeamDeatails);
-    console.log(this.testMember);
+      .subscribe(resMemberDeatails => {
+        const member = new Member();
+        this.Mem._id = resMemberDeatails._id;
+        this.Mem.name = resMemberDeatails.name;
+        this.Mem.mob = resMemberDeatails.mob;
+        this.Mem.email = resMemberDeatails.email;
+        this.Mem.telegram = resMemberDeatails.telegram;
+        this.Mem.image = resMemberDeatails.image;
+        this.Mem.place = resMemberDeatails.place;
+        this.Mem.status = resMemberDeatails.status;
+        this.Mem.groups = resMemberDeatails.groups;
+      });
   }
   editOpenModal(template: TemplateRef<any>, id) {
-    // console.log('id :' + id);
-    // this.name = this.member.name;
     this.memberDetails(id);
     this.modalRef = this._modelService.show(template);
-
-    // this.name = this.member.name;
-    // console.log(this.members);
     this.getTeamDetails();
   }
 
