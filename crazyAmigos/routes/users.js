@@ -31,6 +31,7 @@ router.post('/login',function(req,res,next){
   })(req, res);
 });
 router.post('/register',function(req,res,next){
+  console.log('registering');
   users.findOne({email:req.body.email},function(dbError,user){
     if(dbError){
       res.send({

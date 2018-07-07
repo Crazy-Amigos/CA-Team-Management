@@ -11,7 +11,7 @@ export class Member {
   groups: Array<Group>;
   updatedOn: Date;
 }
-export interface Mem {
+export class Mem {
   _id: string;
   name: string;
   mob: string ;
@@ -20,6 +20,6 @@ export interface Mem {
   image: string;
   place: string;
   status: string;
-  groups: Array<Group>;
+  group: Array<string>;
   updatedOn: Date;
 }

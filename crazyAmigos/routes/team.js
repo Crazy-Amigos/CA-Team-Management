@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var teams=mongoose.model('teams');
+var groups=mongoose.model('groups');
 var mkdir = require('mkdirp');
 
 router.get('/',function (req,res,next) {
@@ -54,8 +55,51 @@ router.post('/:name',function (req,res,next) {
       var uploadFile = req.files.uploadFile;
       if(!dbErr){
         if(!objTeam){
-          // console.log('hello')
+
+          var objTeam =new teams();
           teams.update(
+            {
+              name:req.params.name
+            },
+            {
+              $addToSet: {
+                groups: {
+                  name: req.body.name,
+                  icon: '/uploads/groups/'+req.params.name+'/'+req.body.name+'.jpeg'
+                }
+              }
+            },function(err,data) {
+              if(!err){
+                res.send({
+                  status:200,
+                  message:'successfully created'
+                });
+              }
+              else {
+                console.log(err);
+              }
+            })
+
+          /*var objGroup =new groups();
+          objGroup.name = req.body.name;
+          objGroup.icon = '/uploads/groups/'+req.params.name+'/'+req.body.name+'.jpeg';*/
+         /* objTeam.groups.name=req.body.name;
+          objTeam.groups.name='/uploads/groups/'+req.params.name+'/'+req.body.name+'.jpeg';
+          objTeam.save(function (err,data) {
+            if(!err){
+              res.send({
+                status:200,
+                message:'Group added successfully'
+              });
+            }else{
+              res.send({
+                status:400,
+                message:'error'
+              });
+            }
+          })*/
+          // console.log('hello')
+          /*teams.update(
             {
               name:req.params.name
             },
@@ -78,20 +122,13 @@ router.post('/:name',function (req,res,next) {
                 else {
                   console.log(err);
                 }
-              })
+              })*/
             }else{
               res.send({
                 status:400,
                 message:'error Please retry Again'
               });
             }
-          })
-        }else{
-          res.send({
-            status:400,
-            message:'Same Group already exists in same Team '
-          });
-        }
       }else{
         res.send({
           status:400,

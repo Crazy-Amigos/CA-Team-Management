@@ -47,7 +47,7 @@
           <div class="form-group">
             <label for="txtName" class="col-sm-2 control-label">Profile Pic</label>
             <div class="col-sm-10">
-              <div id="profile-container">
+              <div class="profilecontainer" id="profile-container">
                 <img style="background:#9d9d9d" [src]="data">
               </div>
               <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg" (change)="fileChangeListener($event)"
@@ -142,6 +142,9 @@
                 <a (click)="delete(member._id)">
                   <i class="fa fa-fw   fa-trash fa-2x text-danger"></i>
                 </a>
+                <!--<a (click)="editOpenModal(editTemp,member._id)">
+                  <i class="fa fa-fw   fa-edit fa-2x text-primary"></i>
+                </a>-->
                 <a (click)="editOpenModal(editTemp,member._id)">
                   <i class="fa fa-fw   fa-edit fa-2x text-primary"></i>
                 </a>
@@ -178,46 +181,47 @@
   <div class="modal-body">
     <form #form="ngForm" (ngSubmit)="updateMember(form.value)" class="form-horizontal">
       <div class="box-body">
+        <!--
         <div class="form-group">
           <label for="txtEdName" class="col-sm-2 control-label">Name</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="txtEdName"   name="name" placeholder="Full Name" [(ngModel)]="Mem.name"   >
+            <input type="text" class="form-control" id="txtEdName"   name="name" placeholder="Full Name" [(ngModel)]="name"   >
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdMobile" class="col-sm-2 control-label">Mobile</label>
 
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="mob" id="txtEdMobile" placeholder="+91-9876543210" [(ngModel)]="Mem.mob"  >
+            <input type="text" class="form-control" name="mob" id="txtEdMobile" placeholder="+91-9876543210" [(ngModel)]="mob"  >
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdEmail" class="col-sm-2 control-label">email</label>
 
           <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" id="txtEdEmail" placeholder="example@gmail.com" [(ngModel)]="Mem.email">
+            <input type="email" class="form-control" name="email" id="txtEdEmail" placeholder="example@gmail.com" [(ngModel)]="email">
           </div>
         </div>
         <div class="form-group">
           <label for="txtEdtelegram" class="col-sm-2 control-label">Telegram iD</label>
 
           <div class="col-sm-10">
-            <input type="text" name="telegram" class="form-control" id="txtEdtelegram" placeholder="Telegram ID" [(ngModel)]="Mem.telegram">
+            <input type="text" name="telegram" class="form-control" id="txtEdtelegram" placeholder="Telegram ID" [(ngModel)]="telegram">
           </div>
         </div>
-        <div class="form-group">
-          <label for="txtEdpalce" class="col-sm-2 control-label">place</label>
+       <div class="form-group">
+         <label for="txtEdpalce" class="col-sm-2 control-label">place</label>
 
-          <div class="col-sm-10">
-            <input type="text" name="place" class="form-control" id="txtEdpalce" placeholder="palce" [(ngModel)]="Mem.place">
-          </div>
-        </div>
-
+         <div class="col-sm-10">
+           <input type="text" name="place" class="form-control" id="txtEdpalce" placeholder="palce" [(ngModel)]="place">
+         </div>
+       </div>
+-->
         <div class="form-group">
           <label for="txtName" class="col-sm-2 control-label">Profile Pic</label>
           <div class="col-sm-10">
-            <div id="Edprofile-container">
-              <img style="background:#9d9d9d" [src]="Mem.image" [(ngModel)]="Mem.image">
+            <div class="profilecontainer" id="Edprofile-container">
+              <img style="background:#9d9d9d" [src]="image" [(ngModel)]="image">
             </div>
             <input id="EdimageUpload" type="file" accept=".png, .jpg, .jpeg" (change)="fileChangeListener($event)"
                    name="profile_photo" placeholder="Photo" required="" capture>
@@ -235,21 +239,38 @@
               {{team.name}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list  role="list" *ngFor="let group of team.groups">
-            <ng-template ngIf="Mem.status == group._id">
-              <mat-checkbox [checked]="true"  name="group" (change)="setValue($event,group._id)"  >
-                <img src={{group.icon}} style="width:50px;height:50px">
-                <mat-list-item >{{group.name}}</mat-list-item>
-              </mat-checkbox>
-            </ng-template>
-            <ng-template ngIf="Mem.status != group._id">
-              <mat-checkbox  name="group" (change)="setValue($event,group._id)"  >
-                <img src={{group.icon}} style="width:50px;height:50px">
-                <mat-list-item >{{group.name}}</mat-list-item>
-              </mat-checkbox>
-            </ng-template>
-
+          <div *ngFor="let grp of group">
+          <mat-list  role="list" *ngFor="let grouping of team.groups">
+              <ng-container *ngIf="grouping">
+                <ng-container *ngIf="grp === grouping._id">
+                  <mat-checkbox [checked]="true"  name="group" (change)="setValue($event,grouping._id)"  >
+                    <img src={{grouping.icon}} style="width:50px;height:50px">
+                    <mat-list-item >{{grouping.name}}</mat-list-item>
+                  </mat-checkbox>
+                </ng-container>
+                <ng-container *ngIf="grp != grouping._id ">
+                  <mat-checkbox [checked]="false"  name="group" (change)="setValue($event,grouping._id)"  >
+                    <img src={{grouping.icon}} style="width:50px;height:50px">
+                    <mat-list-item >{{grp + " ...."+ grouping._id }}</mat-list-item>
+                  </mat-checkbox>
+                </ng-container>
+              </ng-container>
+              <ng-template #second>
+                <!--<ng-container *ngIf="grp === grouping._id">
+                  <mat-checkbox [checked]="true"  name="group" (change)="setValue($event,grouping._id)"  >
+                    <img src={{grouping.icon}} style="width:50px;height:50px">
+                    <mat-list-item >{{grouping.name}}</mat-list-item>
+                  </mat-checkbox>
+                </ng-container>
+                <ng-container *ngIf="grp != grouping._id && grouping == grp ">
+                      <mat-checkbox [checked]="false"  name="group" (change)="setValue($event,grouping._id)"  >
+                      <img src={{grouping.icon}} style="width:50px;height:50px">
+                      <mat-list-item >{{grp + " ...."+ grouping._id }}</mat-list-item>
+                      </mat-checkbox>
+                </ng-container>-->
+              </ng-template>
           </mat-list>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
       <!-- /.box-body -->

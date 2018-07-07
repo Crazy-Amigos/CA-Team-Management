@@ -70,6 +70,7 @@ export class AuthService {
     return request;
   }
   public register(user: TokenPayload): Observable<any> {
+    console.log('register');
     return this.request('post', 'register', user);
   }
   public isAuthenticated(): boolean {

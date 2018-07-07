@@ -11,6 +11,7 @@ import {TeamService} from '../team.service';
 import {Team} from '../variable/team';
 import {ToasterService} from '../toaster.service';
 import {TokenPayload} from '../auth/auth.service';
+import index from '@angular/cli/lib/cli';
 
 @Component({
   selector: 'app-members',
@@ -19,17 +20,15 @@ import {TokenPayload} from '../auth/auth.service';
   providers: [MemberService, CategoryService , TeamService, ToasterService]
 })
 export class MembersComponent implements OnInit {
-  Mem = {
-    _id: '',
-    name: '',
-    mob:  '',
-    email:  '',
-    telegram:  '',
-    image:  '',
-    place:  '',
-    status:  '',
-    groups:  '',
-  };
+  _id: string;
+  name: string;
+  mob: string ;
+  email: string;
+  telegram: string;
+  image: string;
+  place: string;
+  status: string;
+  group: Array<string>;
   fileList: FileList ;
   public file_srcs: string[] = [];
   data: any;
@@ -105,9 +104,11 @@ export class MembersComponent implements OnInit {
         .subscribe(resNewTeam => {
           if (resNewTeam.status === 200) {
             this._toasterService.Success(resNewTeam.message);
+            this.data = null;
+            this.fileList = null;
+            this.arryCat = null;
             this.modalRef.hide();
             this.getMembers();
-            this.fileList = null;
           } else {
             this._toasterService.Warning(resNewTeam.message);
           }
@@ -152,21 +153,40 @@ export class MembersComponent implements OnInit {
       });
   }
   delete(member_id) {
+    this._memberService.deleteMember(member_id)
+      .subscribe(resStatus => {
+        if (resStatus.status === 200) {
+          this._toasterService.Success(resStatus.message);
+          this.getMembers();
+        } else {
+          this._toasterService.Warning(resStatus.message);
+        }
 
+      });
   }
   memberDetails(id) {
     this._memberService.getIntividualMember(id)
       .subscribe(resMemberDeatails => {
-        const member = new Member();
-        this.Mem._id = resMemberDeatails._id;
-        this.Mem.name = resMemberDeatails.name;
-        this.Mem.mob = resMemberDeatails.mob;
-        this.Mem.email = resMemberDeatails.email;
-        this.Mem.telegram = resMemberDeatails.telegram;
-        this.Mem.image = resMemberDeatails.image;
-        this.Mem.place = resMemberDeatails.place;
-        this.Mem.status = resMemberDeatails.status;
-        this.Mem.groups = resMemberDeatails.groups;
+        // const objMem = new Mem();
+        this._id = resMemberDeatails._id;
+        this.name = resMemberDeatails.name;
+        this.mob = resMemberDeatails.mob;
+        this.email = resMemberDeatails.email;
+        this.telegram = resMemberDeatails.telegram;
+        this.image = resMemberDeatails.image;
+        this.place = resMemberDeatails.place;
+        this.status = resMemberDeatails.status;
+        this.group = resMemberDeatails.group;
+        // console.log(this.group);
+        // console.log(resMemberDeatails.group);
+
+        /*this._teamService.getTeam()
+          .subscribe(resTeamDeatails => {
+            for ( var i = 0 ; i < resTeamDeatails.length ; i++) {
+              this.teams = resTeamDeatails[i];
+              console.log(this.teams.groups);
+            }
+          });*/
       });
   }
   editOpenModal(template: TemplateRef<any>, id) {

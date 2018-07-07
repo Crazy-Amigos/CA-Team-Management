@@ -8,6 +8,7 @@ import {map} from 'rxjs/internal/operators';
 
 @Injectable ()
 export class MemberService {
+  private _objServer = 'http://localhost:3000';
   private _postUrl = '/amigosApi/mem/';
   private _getUrl = '/amigosApi/mem/';
   private _getMemberUrl = '/amigosApi/mem/details/';
@@ -40,6 +41,13 @@ export class MemberService {
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
     return this._http.put(this._postUrl + '/' + id, objMembers , options)
+      .pipe(map((response: Response) => response.json()));
+  }
+  deleteMember(id) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.delete(this._postUrl + '/' + id , options)
       .pipe(map((response: Response) => response.json()));
   }
 }

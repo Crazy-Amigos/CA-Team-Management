@@ -34,7 +34,7 @@ var memberSchema = new mongoose.Schema ({
   email : {type: String, unique:true},
   telegram : {type: String, unique:true},
   image: String,
-  group:[],
+  group:[{type: Schema.ObjectId, ref: 'groups'}],
   place: String,
   status:{type: Boolean, default: false },
   updatedOn : { type: Date, default: Date.now }
@@ -44,12 +44,14 @@ var categorySchema = new mongoose.Schema ({
   description : String,
   updatedOn : { type: Date, default: Date.now }
 });
+var groupSchema=new mongoose.Schema({
+  name: String,
+  icon:String,
+})
+
 var teamsSchema = new mongoose.Schema ( {
   name: String,
-  groups:[{
-    name: String,
-    icon:String,
-  }]
+  groups:[groupSchema]
 });
 var userSchema = new mongoose.Schema ( {
   email: {
@@ -89,7 +91,7 @@ userSchema.methods.generateJwt = function() {
     exp: parseInt(expiry.getTime() / 1000),
   }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
-
+mongoose.model('groups',groupSchema);
 mongoose.model('users',userSchema);
 mongoose.model('members',memberSchema);
 mongoose.model('category',categorySchema);
