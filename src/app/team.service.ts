@@ -27,5 +27,12 @@ export class TeamService {
     return this._http.post(this._postUrl + teamName, formdata , options)
       .pipe(map((response: Response) => response.json()));
   }
+  deleteGroup(goup_id) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.post(this._postUrl + 'delete/group/' + goup_id , options)
+      .pipe(map((response: Response) => response.json()));
+  }
 
 }

@@ -87,4 +87,18 @@ export class TeamComponent implements OnInit {
       this._toasterService.Warning('Warning', 'Please select image');
     }
   }
+  deleteGroup(_id) {
+    this._teamService.deleteGroup(_id)
+      .subscribe(resNewTeam => {
+        if (resNewTeam.status === 200) {
+          this._toasterService.Success(resNewTeam.message);
+          this.modalRef.hide();
+          this.getTeam();
+          this.fileList = null ;
+        } else {
+          this._toasterService.Warning(resNewTeam.message);
+        }
+
+      });
+  }
 }

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var teams=mongoose.model('teams');
+var members=mongoose.model('members');
 var groups=mongoose.model('groups');
 var mkdir = require('mkdirp');
 
@@ -65,15 +66,26 @@ router.post('/:name',function (req,res,next) {
               $addToSet: {
                 groups: {
                   name: req.body.name,
-                  icon: '/uploads/groups/'+req.params.name+'/'+req.body.name+'.jpeg'
+                  icon: 'uploads/groups/'+req.params.name+'/'+req.body.name+'.jpeg'
                 }
               }
             },function(err,data) {
               if(!err){
-                res.send({
+                uploadFile.mv(link,function(err){
+                  if(!err){
+                    res.send({
+                      status:200,
+                      message:'successfully created'
+                    });
+                  }
+                  else {
+                    console.log(err);
+                  }
+                });
+                /*res.send({
                   status:200,
                   message:'successfully created'
-                });
+                });*/
               }
               else {
                 console.log(err);
@@ -144,6 +156,37 @@ router.post('/:name',function (req,res,next) {
     });
   }
 
+});
+router.post('/delete/group/:_id',function (req,res) {
+  console.log(req.params._id);
+  members.findOne({'group':req.params._id },function (memError,objMem) {
+    console.log('hehe'+objMem)
+    if(memError) {
+      res.send({
+        status:400,
+        message:'internal Error please try again (code : dbEr) ' + memError
+      });
+    } else if(objMem) {
+      res.send({
+        status:400,
+        message:'Reference already exists'
+      });
+    } else {
+      teams.update({ 'groups._id': req.params._id },{$pull:{groups:{ _id: req.params._id }} },function (teamError,teamUpdate) {
+        if (teamError) {
+          res.send({
+            status:400,
+            message:'internal Error please try again (code : dbEr) ' + teamError
+          });
+        } else {
+          res.send({
+            status:200,
+            message:'successfully Deleted'
+          });
+        }
+      });
+    }
+  });
 })
 
 
