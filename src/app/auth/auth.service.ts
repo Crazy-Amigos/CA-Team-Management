@@ -52,9 +52,9 @@ export class AuthService {
   private request(method: 'post'|'get', type: 'login'|'register'|'profile', user?: TokenPayload): Observable<any> {
     let base;
     if (method === 'post') {
-      base = this.http.post(`http://localhost:8081/amigosApi/auth/${type}`, user);
+      base = this.http.post(`https://localhost:8081/amigosApi/auth/${type}`, user);
     } else {
-      base = this.http.get(`http://localhost:8081/amigosApi/auth/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
+      base = this.http.get(`https://localhost:8081/amigosApi/auth/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
 
     const request = base.pipe(
