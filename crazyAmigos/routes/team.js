@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var objID = mongoose.Types.ObjectId;
 var teams=mongoose.model('teams');
 var members=mongoose.model('members');
 var groups=mongoose.model('groups');
@@ -187,7 +188,62 @@ router.post('/delete/group/:_id',function (req,res) {
       });
     }
   });
-})
+});
+router.post('/edit/group/:_id',function (req,res) {
+  console.log(req.params._id);
+  teams.aggregate([
+    {
+      $unwind: "$groups"
+    },
+    { $project:
+        {
+          '_id' : '$_id',
+          'TeamName' : '$name',
+          'GroupName':'$groups.name',
+          'group_id':'$groups._id',
+          'icon':'$groupsicon',
+        }
+    },
+    {
+      $match : { 'group_id' :objID(req.params._id) }
+    }
+  ],function (err,result) {
+    res.json(result);
+  });
+    // OUTPUT
+    /*"_id": "5b41c77943ad7820c2b7330a",
+      "TeamName": "TEAM 1",
+      "GroupName": "Group 1",
+      "group_id": "5b43e35a5c277a11edc81363"*/
+
+});
+router.post('/doEdit/group/:_id',function(req,res){
+  if(req.files) {
+    console.log(req);
+    var uploadFile = req.files.uploadFile;
+    var link = 'public/uploads/groups/'+req.body.team+'/'+req.body.name+'.jpeg';
+    uploadFile.mv(link,function(err){
+      if(!err){
+        res.send({
+          status:200,
+          message:'successfully created'
+        });
+      }
+      else {
+        res.send({
+          status:400,
+          message:'successfully created' + err
+        });
+      }
+    });
+
+  }else {
+    res.send({
+      status:400,
+      message:'Please Select  file'
+    });
+  }
+});
 
 
 module.exports = router;

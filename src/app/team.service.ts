@@ -34,5 +34,18 @@ export class TeamService {
     return this._http.post(this._postUrl + 'delete/group/' + goup_id , options)
       .pipe(map((response: Response) => response.json()));
   }
-
+  getGroup(id) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.post(this._postUrl + 'edit/group/' + id , options)
+      .pipe(map((response: Response) => response.json()));
+  }
+  updateGroupIcon(formdata, _id) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.post(this._postUrl + 'doEdit/group/' + _id, formdata , options)
+      .pipe(map((response: Response) => response.json()));
+  }
 }

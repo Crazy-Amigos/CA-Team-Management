@@ -23,7 +23,9 @@ export class TeamComponent implements OnInit {
   fileList: FileList ;
   team_name;
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
-  teams: Array<Team>
+  _id;
+  groupName;
+  teams: Array<Team>;
   modalRef: BsModalRef;
   constructor(
     private modalService: BsModalService,
@@ -84,21 +86,67 @@ export class TeamComponent implements OnInit {
 
         });
     } else {
-      this._toasterService.Warning('Warning', 'Please select image');
+      this._toasterService.Warning( 'Please select image');
     }
   }
   deleteGroup(_id) {
-    this._teamService.deleteGroup(_id)
-      .subscribe(resNewTeam => {
-        if (resNewTeam.status === 200) {
-          this._toasterService.Success(resNewTeam.message);
-          this.modalRef.hide();
-          this.getTeam();
-          this.fileList = null ;
-        } else {
-          this._toasterService.Warning(resNewTeam.message);
-        }
+    if (confirm('do you wante delete Selected Group') === true) {
+      this._teamService.deleteGroup(_id)
+        .subscribe(resNewTeam => {
+          if (resNewTeam.status === 200) {
+            this._toasterService.Success(resNewTeam.message);
+            this.modalRef.hide();
+            this.getTeam();
+            this.fileList = null ;
+          } else {
+            this._toasterService.Warning(resNewTeam.message);
+          }
 
+        });
+    } else {
+      this._toasterService.Warning('Delete');
+    }
+
+  }
+  editOpenModal(template: TemplateRef<any>, id) {
+    this.modalRef = this.modalService.show(template);
+    this.groupDetails(id);
+    // this.getTeamDetails();
+  }
+  groupDetails(_id) {
+    this._teamService.getGroup(_id)
+      .subscribe(resFromServer => {
+        // console.log(resFromServer[0]);
+        this.setValue(resFromServer[0].group_id, resFromServer[0].GroupName , resFromServer[0].TeamName);
       });
+  }
+  setValue(id, name , team_name) {
+    this._id = id;
+    this.groupName = name;
+    this.team_name = team_name;
+  }
+  updateGroupIcon(group: Group, teamName) {
+    // console.log(this.fileList);
+    if ( this.fileList.length > 0) {
+      const file: File = this.fileList[0];
+      const formData: FormData = new FormData();
+      formData.append('uploadFile', file, file.name);
+      formData.append('name', group.name);
+      formData.append('team', teamName);
+      this._teamService.updateGroupIcon(formData, group._id)
+        .subscribe(resNewTeam => {
+          if (resNewTeam.status === 200) {
+            this._toasterService.Success(resNewTeam.message);
+            this.modalRef.hide();
+            this.getTeam();
+            this.fileList = null ;
+          } else {
+            this._toasterService.Warning(resNewTeam.message);
+          }
+
+        });
+    } else {
+      this._toasterService.Warning( 'Please select image');
+    }
   }
 }
