@@ -12,13 +12,13 @@ router.get('/',function (req,res,next) {
     {
       $lookup: {
         from: "groups",
-        localField: "group",
-        foreignField: "groups._id",
+        localField: "name",
+        foreignField: "team",
         as: "groups"
       }
     }
   ],function(objError,objTeam){
-    //console.log(objTeam);
+    console.log(objTeam);
     res.json(objTeam);
   });
 })
