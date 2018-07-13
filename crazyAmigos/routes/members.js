@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var members = mongoose.model('members');
-var teams=mongoose.model('teams');
-var groups=mongoose.model('groups');
+var teams = mongoose.model('teams');
+// var objectID = mongoose.types.ObjectId;
+var groups = mongoose.model('groups');
 
 router.post('/', function (req, res, next) {
   if (req.files) {
@@ -75,18 +76,21 @@ router.get('/', function (req, res, next) {
   });
 });
 router.get('/:group_id', function (req, res, next) {
+  // console.log(req.params.group_id);
   members.aggregate([
-    {"$match": {"_id": req.params.group_id}},
+    {"$match": {"group": mongoose.Types.ObjectId(req.params.group_id), "status": true},},
     {
       "$group": {
         "_id": "$_id",
         "name": {"$first": "$name"},
         "status": {"$first": "$status"},
+        "image": {"$first": "$image"}
       }
     }
   ], function (err, results) {
     if (!err) {
       if (results) {
+        console.log(results);
         res.json(results);
       } else {
         res.send({
@@ -103,23 +107,78 @@ router.get('/:group_id', function (req, res, next) {
     }
   })
 });
-router.get('/member/:id', function (req, res, next){
+router.get('/member/:id', function (req, res, next) {
+  members.findOne({_id:req.params.id},function(err,result){
+    if(err) throw err;
+    console.log(result);
+    res.json(result);
+  })
   // console.log('members');
   //console.log(req.params.id);
-  members.group.findOne({_id:req.params.id},function(dbError,detailsmember){
-    if(!dbError){
+  /*members.findOne({_id: req.params.id}, function (dbError, detailsmember) {
+    if (!dbError) {
       console.log(detailsmember);
+      for( var i =0 ;i< detailsmember.group.length;i++){
+        // console.log(detailsmember.group[i]);
+
+        teams.findOne({'groups._id':detailsmember.group[i]},function (err,result) {
+          if(err) throw err;
+          // console.log(detailsmember.group[i]);
+          for(var j=0; j<result.groups.length;j++){
+            console.log(detailsmember.group[i]);
+            if(result.groups[j]._id === detailsmember.group[i]){
+              console.log(result.groups[i]);
+            }
+
+          }
+
+        });
+      }
       res.json(detailsmember);
-    }else{
+    } else {
       res.send({
         status: 400,
         message: 'Some Error from Database while getting Members List ,Please try after Sometime '
       });
     }
-  })
+  })*/
 });
-router.post('/test/:_id', function (req, res, next){
+
+router.post('/test/:_id', function (req, res, next) {
+  console.log('hello');
   members.aggregate([
+    /*{$unwind: "$group"},*/
+    {
+      $lookup: {
+        from: "teams",
+        localField: "group",
+        foreignField: "groups._id",
+        as: "teams_Group"
+      }
+    },
+    /*{$unwind: "$teams_Group"},*/
+    //{$match: {"teams_Group.groups._id":"$group"}}
+    {$match: {'_id': mongoose.Types.ObjectId('5b45cc37820d3b52412406a2'), /*'teams_Group.groups._id':'5b43e35a5c277a11edc81363'*/}},
+    /* {
+       "$project": {
+         // "strMemberTypeName": "$strLevelValue",
+         // "teams_Group.groups._id": "$group",
+         // "strOne": "$data.strLevelValue"
+       }
+     }*/
+
+    /*{
+      $unwind:"$teams_Group.groups"
+    }*/
+  ], function (err, data) {
+    if (err) {
+      res.json(err)
+    } else {
+      console.log(data);
+      res.json(data);
+    }
+  });
+  /*members.aggregate([
     {
       $unwind: "$group"
     },
@@ -155,88 +214,88 @@ router.post('/test/:_id', function (req, res, next){
 
       }
     }
-
-    /*{
-      $group: {
-        _id: {
-          _id:"$_id",
-          group: "$group",
-          status: "$status",
-          name: "$name",
-          email: "$email",
-          telegram: "$telegram",
-          group:"$teams_Group.groups._id"
-        },
-      }
-    },*/
+*/
+  /*{
+    $group: {
+      _id: {
+        _id:"$_id",
+        group: "$group",
+        status: "$status",
+        name: "$name",
+        email: "$email",
+        telegram: "$telegram",
+        group:"$teams_Group.groups._id"
+      },
+    }
+  },*/
 
   /*  {
       $unwind: "$groups"
     }*/
-    /*,
-    {
-      $project:{
-        name:1,
-        group:1,
-        Result:{
-          $cond:
-            {if:
-                {
-                  $eq:['$group','$group']
-                },
-              then:"good",else:"poor"
-            }
-        }
+  /*,
+  {
+    $project:{
+      name:1,
+      group:1,
+      Result:{
+        $cond:
+          {if:
+              {
+                $eq:['$group','$group']
+              },
+            then:"good",else:"poor"
+          }
+      }
 
-      }
-    }*/
-/*    { $match : { '$group': mongoose.Types.ObjectId('$$teams_Group.groups._id')} },
-    {$cond:{if:{if:{$gte:[]}}}}*/
-    /*{'$$groups':["$$groups",mongoose.Types.ObjectId('5b3088b5fe62c60c9ea7bf8e')]}*/
-    /*{ $match : { 'group': mongoose.Types.ObjectId('groups._id') } },*/
-    /*,
-    {
-      $unwind: "$address"
-    },
-    ,
-    {
-      $lookup: {
-        from: "teams",
-        localField: "group",
-        foreignField: "groups._id",
-        as: "address"
-      }
     }
-    {
-      $lookup: {
-        from: "addressComment",
-        localField: "address._id",
-        foreignField: "address_id",
-        as: "address.addressComment"
-      }
-    }*/],function (err,data){
-    res.json(data);
-  })
-  /*members.findOne({_id:req.params._id},function (err,data) {
-    res.json(data);
-  })*/
+  }*/
+  /*    { $match : { '$group': mongoose.Types.ObjectId('$$teams_Group.groups._id')} },
+      {$cond:{if:{if:{$gte:[]}}}}*/
+  /*{'$$groups':["$$groups",mongoose.Types.ObjectId('5b3088b5fe62c60c9ea7bf8e')]}*/
+  /*{ $match : { 'group': mongoose.Types.ObjectId('groups._id') } },*/
+  /*,
+  {
+    $unwind: "$address"
+  },
+  ,
+  {
+    $lookup: {
+      from: "teams",
+      localField: "group",
+      foreignField: "groups._id",
+      as: "address"
+    }
+  }
+  {
+    $lookup: {
+      from: "addressComment",
+      localField: "address._id",
+      foreignField: "address_id",
+      as: "address.addressComment"
+    }
+  }],function (err,data){
+  res.json(data);
+})
+/*members.findOne({_id:req.params._id},function (err,data) {
+  res.json(data);
+})*/
 });
-router.put('/:id',function (req,res,next) {
+router.put('/:id', function (req, res, next) {
   members.findByIdAndUpdate(req.params.id,
     {
       $set: {
-        status:req.body.status
+        status: req.body.status
       }
     },
     {
-      new:true
-    },function (err,updateDetails) {
-      if(!err){
+      new: true
+    }, function (err, updateDetails) {
+      if (!err) {
         res.send({
           status: 200,
           message: 'Status Successfully changed'
         });
-      }else{
+      } else {
         res.send({
           status: 400,
           message: 'Some Error getting in status change Please try after some time '
@@ -244,9 +303,9 @@ router.put('/:id',function (req,res,next) {
       }
     })
 })
-router.delete('/:id',function (req,res) {
-  members.findByIdAndRemove(req.params.id,function (err,data) {
-    if(err){
+router.delete('/:id', function (req, res) {
+  members.findByIdAndRemove(req.params.id, function (err, data) {
+    if (err) {
       res.send({
         status: 400,
         message: 'Some Error getting in status change Please try after some time '

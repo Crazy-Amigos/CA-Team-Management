@@ -8,7 +8,8 @@ import {Group} from './variable/group';
 export class TeamService {
   private _objServer = 'http://localhost:3000';
   private _postUrl = '/amigosApi/teams/';
-  private _getUrl = '/amigosApi/teams/'
+  private _getUrl = '/amigosApi/teams/';
+  private _groupUrl = '/amigosApi/groups/'
   constructor(private _http: Http) { }
   addNewTeam(team: Team) {
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -24,28 +25,28 @@ export class TeamService {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
-    return this._http.post(this._postUrl + teamName, formdata , options)
+    return this._http.post(this._groupUrl + teamName, formdata , options)
       .pipe(map((response: Response) => response.json()));
   }
   deleteGroup(goup_id) {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
-    return this._http.post(this._postUrl + 'delete/group/' + goup_id , options)
+    return this._http.post(this._groupUrl + 'delete/' + goup_id , options)
       .pipe(map((response: Response) => response.json()));
   }
   getGroup(id) {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
-    return this._http.post(this._postUrl + 'edit/group/' + id , options)
+    return this._http.post(this._groupUrl + 'getGroup/' + id , options)
       .pipe(map((response: Response) => response.json()));
   }
   updateGroupIcon(formdata, _id) {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     const options = new RequestOptions({headers: headers});
-    return this._http.post(this._postUrl + 'doEdit/group/' + _id, formdata , options)
+    return this._http.post(this._groupUrl + 'doEdit/group/' + _id, formdata , options)
       .pipe(map((response: Response) => response.json()));
   }
 }

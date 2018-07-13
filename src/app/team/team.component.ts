@@ -117,7 +117,7 @@ export class TeamComponent implements OnInit {
     this._teamService.getGroup(_id)
       .subscribe(resFromServer => {
         // console.log(resFromServer[0]);
-        this.setValue(resFromServer[0].group_id, resFromServer[0].GroupName , resFromServer[0].TeamName);
+        this.setValue(resFromServer._id, resFromServer.name , resFromServer.team);
       });
   }
   setValue(id, name , team_name) {

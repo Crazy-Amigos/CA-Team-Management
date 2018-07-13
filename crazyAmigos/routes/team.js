@@ -8,14 +8,19 @@ var groups=mongoose.model('groups');
 var mkdir = require('mkdirp');
 
 router.get('/',function (req,res,next) {
-  teams.find({},function (err,listTeam) {
-    if(!err){
-      // console.log(listTeam);
-      res.json(listTeam);
-    }else{
-      console.log('Error : (Teams) => dbError');
+  teams.aggregate([
+    {
+      $lookup: {
+        from: "groups",
+        localField: "group",
+        foreignField: "groups._id",
+        as: "groups"
+      }
     }
-  })
+  ],function(objError,objTeam){
+    //console.log(objTeam);
+    res.json(objTeam);
+  });
 })
 router.post('/',function (req,res,next) {
   teams.findOne({name:req.body.name},function (bdError,teamList) {

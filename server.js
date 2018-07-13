@@ -46,6 +46,7 @@ app.use(passport.session());
 app.use('/amigosApi/teams',teams);
 app.use('/amigosApi/mem',members);
 app.use('/amigosApi/auth',users);
+app.use('/amigosApi/groups',groups);
 // Static files
 app.use(express.static(__dirname + '/public'));
 

@@ -181,7 +181,6 @@
   <div class="modal-body">
     <form #form="ngForm" (ngSubmit)="updateMember(form.value)" class="form-horizontal">
       <div class="box-body">
-        <!--
         <div class="form-group">
           <label for="txtEdName" class="col-sm-2 control-label">Name</label>
           <div class="col-sm-10">
@@ -216,7 +215,6 @@
            <input type="text" name="place" class="form-control" id="txtEdpalce" placeholder="palce" [(ngModel)]="place">
          </div>
        </div>
--->
         <div class="form-group">
           <label for="txtName" class="col-sm-2 control-label">Profile Pic</label>
           <div class="col-sm-10">
@@ -239,21 +237,23 @@
               {{team.name}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div *ngFor="let grp of group">
+
           <mat-list  role="list" *ngFor="let grouping of team.groups">
               <ng-container *ngIf="grouping">
+                <div *ngFor="let grp of group">
                 <ng-container *ngIf="grp === grouping._id">
                   <mat-checkbox [checked]="true"  name="group" (change)="setValue($event,grouping._id)"  >
                     <img src={{grouping.icon}} style="width:50px;height:50px">
                     <mat-list-item >{{grouping.name}}</mat-list-item>
                   </mat-checkbox>
                 </ng-container>
-                <ng-container *ngIf="grp != grouping._id ">
+               <!-- <ng-container *ngIf="grp != grouping._id ">
                   <mat-checkbox [checked]="false"  name="group" (change)="setValue($event,grouping._id)"  >
                     <img src={{grouping.icon}} style="width:50px;height:50px">
-                    <mat-list-item >{{grp + " ...."+ grouping._id }}</mat-list-item>
+                    <mat-list-item >{{grouping.name}}</mat-list-item>
                   </mat-checkbox>
-                </ng-container>
+                </ng-container>-->
+                </div>
               </ng-container>
               <ng-template #second>
                 <!--<ng-container *ngIf="grp === grouping._id">
@@ -270,13 +270,12 @@
                 </ng-container>-->
               </ng-template>
           </mat-list>
-          </div>
         </mat-expansion-panel>
       </mat-accordion>
       <!-- /.box-body -->
       <div class="box-footer">
         <button type="button" (click)="modalRef.hide()" class="btn btn-default">Cancel</button>
-        <button type="submit" class="btn btn-info pull-right">Create New</button>
+        <button type="submit" class="btn btn-info pull-right">Update New</button>
       </div>
       <!-- /.box-footer -->
     </form>

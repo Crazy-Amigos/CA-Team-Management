@@ -106,7 +106,7 @@ export class MembersComponent implements OnInit {
             this._toasterService.Success(resNewTeam.message);
             this.data = null;
             this.fileList = null;
-            this.arryCat = null;
+            this.arryCat = [];
             this.modalRef.hide();
             this.getMembers();
           } else {
@@ -177,6 +177,8 @@ export class MembersComponent implements OnInit {
         this.place = resMemberDeatails.place;
         this.status = resMemberDeatails.status;
         this.group = resMemberDeatails.group;
+        console.log(resMemberDeatails.group);
+        this.arryCat.push(resMemberDeatails.group);
         // console.log(this.group);
         // console.log(resMemberDeatails.group);
 

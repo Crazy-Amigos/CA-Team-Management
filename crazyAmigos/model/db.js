@@ -47,11 +47,12 @@ var categorySchema = new mongoose.Schema ({
 var groupSchema=new mongoose.Schema({
   name: String,
   icon:String,
+  team: String,
+  status: Boolean
 })
 
 var teamsSchema = new mongoose.Schema ( {
   name: String,
-  groups:[groupSchema]
 });
 var userSchema = new mongoose.Schema ( {
   email: {
