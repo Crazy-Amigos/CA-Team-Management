@@ -7,6 +7,7 @@ import {ToasterService} from '../toaster.service';
 import {Group} from '../variable/group';
 import { Http, Response , RequestOptions } from '@angular/http';
 import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { Location } from '@angular/common';
 const URL = '/amigosApi/teams/';
 // import the do function to be used with the http library.
 // import 'rxjs/add/operator/do';
@@ -32,7 +33,8 @@ export class TeamComponent implements OnInit {
     private _toasterService: ToasterService,
     private _teamService: TeamService ,
     private http: Http,
-    private el: ElementRef) { }
+    private el: ElementRef,
+    private location: Location) { }
 
   ngOnInit() {
     // this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
@@ -95,8 +97,8 @@ export class TeamComponent implements OnInit {
         .subscribe(resNewTeam => {
           if (resNewTeam.status === 200) {
             this._toasterService.Success(resNewTeam.message);
-            this.modalRef.hide();
-            this.getTeam();
+            // this.modalRef.hide();
+            location.reload();
             this.fileList = null ;
           } else {
             this._toasterService.Warning(resNewTeam.message);
@@ -138,7 +140,7 @@ export class TeamComponent implements OnInit {
           if (resNewTeam.status === 200) {
             this._toasterService.Success(resNewTeam.message);
             this.modalRef.hide();
-            this.getTeam();
+            location.reload();
             this.fileList = null ;
           } else {
             this._toasterService.Warning(resNewTeam.message);
@@ -147,6 +149,24 @@ export class TeamComponent implements OnInit {
         });
     } else {
       this._toasterService.Warning( 'Please select image');
+    }
+  }
+  deleteTeam(team) {
+    if (confirm('do you wante delete Selected Group') === true) {
+      this._teamService.deleteTeam(team)
+        .subscribe(resNewTeam => {
+          if (resNewTeam.status === 200) {
+            this._toasterService.Success(resNewTeam.message);
+            // this.modalRef.hide();
+            location.reload();
+            this.fileList = null ;
+          } else {
+            this._toasterService.Warning(resNewTeam.message);
+          }
+
+        });
+    } else {
+      this._toasterService.Warning('Delete');
     }
   }
 }

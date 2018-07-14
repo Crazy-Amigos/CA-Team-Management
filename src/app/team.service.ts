@@ -49,4 +49,11 @@ export class TeamService {
     return this._http.post(this._groupUrl + 'doEdit/group/' + _id, formdata , options)
       .pipe(map((response: Response) => response.json()));
   }
+  deleteTeam(team) {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    const options = new RequestOptions({headers: headers});
+    return this._http.post(this._postUrl + 'delete/' + team , options)
+      .pipe(map((response: Response) => response.json()));
+  }
 }

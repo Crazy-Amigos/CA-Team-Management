@@ -15,6 +15,7 @@
   <div class="box-body table-responsive no-padding">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let team of teams">
+        <input type="button" (click)="deleteTeam(team.name)" value="Delete {{team.name}}">
         <mat-expansion-panel-header>
           <mat-panel-title class="primary">
             Team : {{team.name}}

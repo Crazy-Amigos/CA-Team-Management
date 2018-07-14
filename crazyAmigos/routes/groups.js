@@ -54,7 +54,7 @@ router.post('/delete/:grpID',function(req,res,next){
       group.findOneAndDelete({_id:req.params.grpID},function(grpError,grpResult){
         if(grpError) throw grpError;
         fs.unlink('public'+grpResult.icon,function(err){
-          if(err) throw err
+          if(err) throw err;
           res.send({
             status: 200,
             message: 'deleted Success'
